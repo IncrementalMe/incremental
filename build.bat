@@ -1,1 +1,1 @@
-node tools/r.js -o tools/build.js
+node tools/r.js -o tools/build.json

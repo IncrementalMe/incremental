@@ -14,8 +14,8 @@
       "amd"
     ],
     "ignore": [
-      "*.min.js",
-      "/tools/"
+      "r.js",
+      "*.min.js"
     ]
   }
 }
