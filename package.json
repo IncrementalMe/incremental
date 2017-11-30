@@ -1,0 +1,21 @@
+{
+  "name": "game",
+  "version": "0.0.1",
+  "repository": "https://github.com/IncrementalMe/incremental",
+  "amd": {},
+  "volo": {
+    "baseUrl": "game/lib"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  },
+  "standard": {
+    "envs": [
+      "amd"
+    ],
+    "ignore": [
+      "*.min.js",
+      "/tools/"
+    ]
+  }
+}
