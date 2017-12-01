@@ -1,0 +1,30 @@
+html {
+	padding: 0px;
+	margin: 0px;
+}
+body {
+  background-color: #f0f0f0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	min-width: 600px;
+	overflow: hidden;
+}
+
+.wrapper {
+  width: 900px;
+  height: 650px;
+	margin: 0 auto;
+	height: 100%;
+  position: relative;
+}
+.inner {
+  margin-top: 12px;
+  background-color: #f7f7f7;
+}
+.canvas {
+  width: 900px;
+  height: 650px;
+  background-color: #f7f7f7;
+}

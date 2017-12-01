@@ -7,4 +7,4 @@ requirejs.config({
   }
 })
 
-requirejs(['app/main'])
+requirejs(['app/start'])
