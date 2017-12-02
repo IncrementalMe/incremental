@@ -1,4 +1,11 @@
 define(function (require) {
-  var content = require('./content/content.js')
-  console.log(content.getContent())
+  var draw = require('./draw.js')
+  var ctx = document.getElementById('canvas').getContext('2d')
+
+  function update () {
+    draw(ctx)
+    window.requestAnimationFrame(update)
+  }
+
+  window.requestAnimationFrame(update)
 })
