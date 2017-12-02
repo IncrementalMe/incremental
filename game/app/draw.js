@@ -1,18 +1,37 @@
 define(function (require) {
-  return {
-    centerText: function (ctx, text, y, xOffset = 0) {
-      var measurement = ctx.measureText(text)
-      var x = (ctx.canvas.width - measurement.width) / 2 + xOffset
-      ctx.fillText(text, x, y)
-    },
+  var ctx = null
 
-    draw: function (ctx) {
-      var y = ctx.canvas.height / 2
-      var color = 'rgb(0,0,0)'
+  function start () {
+    ctx = document.getElementById('canvas').getContext('2d')
+    ctx.canvas.setAttribute('width', 900)
+    ctx.canvas.setAttribute('height', 650)
 
-      ctx.fillStyle = color
-      ctx.font = '24px monospace'
-      this.centerText(ctx, 'Test text', y - 30)
-    }
+    ctx.images = {}
+    ctx.images.farm_empty = document.createElement('img')
+    ctx.images.farm_empty.src = ('./img/farm_empty.png')
+
+    window.requestAnimationFrame(update)
   }
+
+  function update () {
+    draw(ctx)
+    window.requestAnimationFrame(update)
+  }
+
+  function draw (ctx) {
+    if (ctx === null) return
+
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+    ctx.fillStyle = '#f0f0f0'
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+    ctx.fillStyle = '#000'
+    ctx.font = '26px monospace'
+    ctx.fillText('Farm', 110, 570)
+
+    ctx.drawImage(ctx.images.farm_empty, 40, 550, 60, 60)
+  }
+
+  return {start: start}
 })
