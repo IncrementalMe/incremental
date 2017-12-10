@@ -1,5 +1,6 @@
-define(function () {
+define(function (require) {
   var ctx
+  var formatNumber = require('formatNumber')
 
   function start (loop) {
     ctx = document.getElementById('canvas').getContext('2d')
@@ -11,7 +12,6 @@ define(function () {
     createImage('./img/Andre/farm_empty.png')
     createImage('./img/Andre/gold.png')
     createImage('./img/Andre/food.png')
-    console.log(ctx.images)
 
     ctx.save()
     window.requestAnimationFrame(loop)
@@ -37,13 +37,13 @@ define(function () {
     ctx.fillStyle = '#000'
     ctx.font = '26px monospace'
 
-    text = Math.floor(game.wallet.gold.amount)
+    text = formatNumber(game.wallet.food.amount)
     ctx.fillText(text, ctx.canvas.width / 2 - 232, 27)
-    ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 270, 4, 28, 28)
+    ctx.drawImage(ctx.images.food, ctx.canvas.width / 2 - 270, 4, 28, 28)
 
-    text = Math.floor(game.wallet.food.amount)
+    text = formatNumber(game.wallet.gold.amount)
     ctx.fillText(text, ctx.canvas.width / 2 - 7, 28)
-    ctx.drawImage(ctx.images.food, ctx.canvas.width / 2 - 45, 4, 28, 28)
+    ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 45, 4, 28, 28)
 
     // Farm
     ctx.fillStyle = '#000'

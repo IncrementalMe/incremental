@@ -1,5 +1,6 @@
 define(function (require) {
   return {
-    frameRate: 60
+    frameRate: 60,
+    updatesPerSecond: 10
   }
 })

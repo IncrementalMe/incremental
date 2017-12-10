@@ -4,7 +4,7 @@ define(function (require) {
   var buildings = {
     farm: {
       effect: function (game) {
-        game.wallet.food.amount += (1 * this.amount) / settings.frameRate
+        game.wallet.food.amount += (1 * this.amount) / settings.updatesPerSecond
       }
     }
   }
