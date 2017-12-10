@@ -3,8 +3,9 @@ define(function () {
 
   function start (loop) {
     ctx = document.getElementById('canvas').getContext('2d')
-    ctx.canvas.setAttribute('width', 900)
-    ctx.canvas.setAttribute('height', 650)
+    ctx.canvas.width = 900
+    ctx.canvas.height = 650
+    ctx.imageSmoothingEnabled = false
 
     ctx.images = {}
     ctx.images.farm_empty = document.createElement('img')
@@ -30,7 +31,7 @@ define(function () {
     // Farm
     ctx.fillStyle = '#000'
     ctx.fillText('Farm ' + game.buildingWallet.farm.amount, 110, 570)
-    ctx.drawImage(ctx.images.farm_empty, 40, 550, 60, 60)
+    ctx.drawImage(ctx.images.farm_empty, 40, 550, 64, 64)
 
     // Buttons
     game.buttons.forEach(button => {
