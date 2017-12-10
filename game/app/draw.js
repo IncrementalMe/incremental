@@ -1,10 +1,7 @@
 define(function () {
-  var ctx = null
-  var wallet = null
+  var ctx
 
-  function start (walletIn) {
-    wallet = walletIn
-
+  function start (loop) {
     ctx = document.getElementById('canvas').getContext('2d')
     ctx.canvas.setAttribute('width', 900)
     ctx.canvas.setAttribute('height', 650)
@@ -13,15 +10,11 @@ define(function () {
     ctx.images.farm_empty = document.createElement('img')
     ctx.images.farm_empty.src = './img/farm_empty.png'
 
-    window.requestAnimationFrame(update)
+    ctx.save()
+    window.requestAnimationFrame(loop)
   }
 
-  function update () {
-    draw(ctx)
-    window.requestAnimationFrame(update)
-  }
-
-  function draw (ctx) {
+  function draw (game) {
     if (ctx === null) return
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
@@ -30,15 +23,22 @@ define(function () {
 
     // Resources
     ctx.fillStyle = '#000'
-    ctx.fillText('Gold: ' + wallet.gold.amount, 50, 50)
-    ctx.fillText('Food: ' + wallet.food.amount, 50, 75)
+    ctx.font = '26px monospace'
+    ctx.fillText('Gold: ' + Math.floor(game.wallet.gold.amount), 50, 50)
+    ctx.fillText('Food: ' + Math.floor(game.wallet.food.amount), 50, 75)
 
     // Farm
     ctx.fillStyle = '#000'
-    ctx.font = '26px monospace'
-    ctx.fillText('Farm', 110, 570)
+    ctx.fillText('Farm ' + game.buildingWallet.farm.amount, 110, 570)
     ctx.drawImage(ctx.images.farm_empty, 40, 550, 60, 60)
+
+    // Buttons
+    game.buttons.forEach(button => {
+      button.draw(ctx)
+    })
+
+    ctx.restore()
   }
 
-  return { start: start }
+  return { start: start, draw: draw }
 })
