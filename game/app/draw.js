@@ -8,15 +8,26 @@ define(function () {
     ctx.imageSmoothingEnabled = false
 
     ctx.images = {}
-    ctx.images.farm_empty = document.createElement('img')
-    ctx.images.farm_empty.src = './img/Andre/farm_empty.png'
+    createImage('./img/Andre/farm_empty.png')
+    createImage('./img/Andre/gold.png')
+    createImage('./img/Andre/food.png')
+    console.log(ctx.images)
 
     ctx.save()
     window.requestAnimationFrame(loop)
   }
 
+  function createImage (src) {
+    var fileName = src.replace(/^.*[\\/]/, '')
+    fileName = fileName.replace(/[.].{3}/, '')
+    ctx.images[fileName] = document.createElement('img')
+    ctx.images[fileName].src = src
+  }
+
   function draw (game) {
     if (ctx === null) return
+
+    var text
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.fillStyle = '#f0f0f0'
@@ -25,8 +36,14 @@ define(function () {
     // Resources
     ctx.fillStyle = '#000'
     ctx.font = '26px monospace'
-    ctx.fillText('Gold: ' + Math.floor(game.wallet.gold.amount), 50, 50)
-    ctx.fillText('Food: ' + Math.floor(game.wallet.food.amount), 50, 75)
+
+    text = Math.floor(game.wallet.gold.amount)
+    ctx.fillText(text, ctx.canvas.width / 2 - 232, 27)
+    ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 270, 4, 28, 28)
+
+    text = Math.floor(game.wallet.food.amount)
+    ctx.fillText(text, ctx.canvas.width / 2 - 7, 28)
+    ctx.drawImage(ctx.images.food, ctx.canvas.width / 2 - 45, 4, 28, 28)
 
     // Farm
     ctx.fillStyle = '#000'
