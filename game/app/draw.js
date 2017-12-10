@@ -8,7 +8,7 @@ define(function () {
 
     ctx.images = {}
     ctx.images.farm_empty = document.createElement('img')
-    ctx.images.farm_empty.src = './img/farm_empty.png'
+    ctx.images.farm_empty.src = './img/Andre/farm_empty.png'
 
     ctx.save()
     window.requestAnimationFrame(loop)
