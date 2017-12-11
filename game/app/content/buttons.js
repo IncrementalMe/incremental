@@ -3,12 +3,18 @@ define(function (require) {
 
   var buttons = [
     new Button({
-      x: 110,
-      y: 575,
-      text: '+1 5g',
+      x: 450,
+      y: 564,
+      width: 120,
+      height: 108,
+      weight: 2,
+      text: '',
       onClick: function (game) {
-        if (game.wallet.pay('gold', 5)) game.buildingWallet.farm.amount += 1
-      }
+        if (game.wallet.payLedger(game.buildingWallet.farm.getCost())) {
+          game.buildingWallet.pay('farm', -1)
+        }
+      },
+      hidden: false
     })
   ]
   return buttons

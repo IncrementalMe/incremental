@@ -10,7 +10,7 @@ define(function (require) {
     buttons: require('./content/buttons.js'),
     mousePos: {}
   }
-  game.wallet.gold.amount = 10000
+  game.wallet.food.amount = 1
   mouse.start(game)
 
   draw.start(loop)

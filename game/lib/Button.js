@@ -7,6 +7,7 @@ define(function () {
     this.weight = typeof input.weight === 'undefined' ? 2 : input.weight
     this.text = typeof input.text === 'undefined' ? '' : input.text
     this.color = typeof input.color === 'undefined' ? 'rgb(0,0,0)' : input.color
+    this.hidden = typeof input.hidden === 'undefined' ? false : input.hidden
 
     this.onClick = typeof input.onClick === 'undefined'
       ? function () {}
@@ -14,17 +15,21 @@ define(function () {
 
     this.hover = 0
     this.clickCheck = function (game) {
-      if (this.pointOnObject(game.mousePos)) this.onClick(game)
+      if (this.hidden === false && this.pointOnObject(game.mousePos)) {
+        this.onClick(game)
+      }
     }
 
     this.draw = function (ctx) {
-      ctx.strokeStyle = this.color
-      ctx.lineWidth = this.weight + this.hover
-      ctx.strokeRect(this.x, this.y, this.width, this.height)
+      if (this.hidden === false) {
+        ctx.strokeStyle = this.color
+        ctx.lineWidth = this.weight + this.hover
+        ctx.strokeRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
 
-      ctx.fillStyle = this.color
-      ctx.font = '18px monospace'
-      ctx.fillText(this.text, this.x + 8, this.y + 21)
+        ctx.fillStyle = this.color
+        ctx.font = '18px monospace'
+        ctx.fillText(this.text, this.x + 8 - this.width / 2, this.y + 21 - this.height / 2)
+      }
     }
 
     this.update = function (game) {
@@ -36,8 +41,9 @@ define(function () {
     }
 
     this.pointOnObject = function (point) {
-      if (point.x > this.x && point.x < this.x + this.width) {
-        if (point.y > this.y && point.y < this.y + this.height) {
+      var bounds = {x: this.x - this.width / 2, y: this.y - this.height / 2}
+      if (point.x > bounds.x && point.x < bounds.x + this.width) {
+        if (point.y > bounds.y && point.y < bounds.y + this.height) {
           return true
         }
       }
