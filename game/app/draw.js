@@ -50,7 +50,13 @@ define(function (require) {
 
     // Farm
     ctx.font = '22px monospace'
-    ctx.fillText('Build Farm', 389, 506)
+    if (game.buildingWallet.farm.amount > 0) {
+      ctx.fillText('Farm', 389, 506)
+      ctx.textAlign = 'right'
+      ctx.fillText(game.buildingWallet.farm.amount, 511, 506)
+    } else {
+      ctx.fillText('Build Farm', 389, 506)
+    }
     ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
     ctx.font = '20px monospace'
 
