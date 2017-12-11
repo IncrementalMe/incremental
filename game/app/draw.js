@@ -1,5 +1,5 @@
 define(function (require) {
-  var formatNumber = require('formatNumber')
+  var formatNumber = require('lib/formatNumber')
   var ctx
 
   function start (loop) {
@@ -9,9 +9,9 @@ define(function (require) {
     ctx.imageSmoothingEnabled = false
 
     ctx.images = {}
-    createImage('./img/Andre/farm.png')
-    createImage('./img/Andre/gold.png')
-    createImage('./img/Andre/food.png')
+    createImage('img/Andre/farm.png')
+    createImage('img/Andre/gold.png')
+    createImage('img/Andre/food.png')
 
     ctx.save()
     window.requestAnimationFrame(loop)

@@ -1,5 +1,5 @@
 define(function (require) {
-  var Button = require('Button')
+  var Button = require('lib/Button')
 
   var buttons = [
     new Button({

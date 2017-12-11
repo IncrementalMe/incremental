@@ -1,5 +1,5 @@
 define(function (require) {
-  var Effect = require('Effect')
+  var Effect = require('lib/Effect')
 
   function setup (game, building) {
     if (typeof building.defaultEffects !== 'undefined') {
