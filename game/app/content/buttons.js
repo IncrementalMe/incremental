@@ -10,9 +10,7 @@ define(function (require) {
       weight: 2,
       text: '',
       onClick: function (game) {
-        if (game.wallet.payLedger(game.buildingWallet.farm.getCost())) {
-          game.buildingWallet.pay('farm', -1)
-        }
+        game.buildingWallet.farm.build(game, 1)
       },
       hidden: false
     })

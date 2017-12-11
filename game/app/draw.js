@@ -61,7 +61,7 @@ define(function (require) {
     ctx.font = '20px monospace'
 
     ctx.textAlign = 'right'
-    text = formatNumber(game.buildingWallet.farm.getCost().food)
+    text = formatNumber(game.buildingWallet.farm.getCost().get('food'))
     ctx.fillText(text, 450, 602)
     ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
 
