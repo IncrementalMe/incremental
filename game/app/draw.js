@@ -1,6 +1,6 @@
 define(function (require) {
-  var ctx
   var formatNumber = require('formatNumber')
+  var ctx
 
   function start (loop) {
     ctx = document.getElementById('canvas').getContext('2d')
@@ -26,8 +26,7 @@ define(function (require) {
 
   function draw (game) {
     if (ctx === null) return
-
-    var text
+    var text = ''
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.fillStyle = '#f0f0f0'
@@ -50,10 +49,10 @@ define(function (require) {
 
     // Farm
     ctx.font = '22px monospace'
-    if (game.buildingWallet.farm.amount > 0) {
+    if (game.buildings.farm.amount > 0) {
       ctx.fillText('Farm', 389, 506)
       ctx.textAlign = 'right'
-      ctx.fillText(game.buildingWallet.farm.amount, 511, 506)
+      ctx.fillText(game.buildings.farm.amount, 511, 506)
     } else {
       ctx.fillText('Build Farm', 389, 506)
     }
@@ -61,7 +60,7 @@ define(function (require) {
     ctx.font = '20px monospace'
 
     ctx.textAlign = 'right'
-    text = formatNumber(game.buildingWallet.farm.getCost().get('food'))
+    text = formatNumber(game.buildings.farm.getCost().get('food'))
     ctx.fillText(text, 450, 602)
     ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
 

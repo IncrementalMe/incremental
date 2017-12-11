@@ -6,7 +6,7 @@ define(function (require) {
 
   var game = {
     wallet: new Wallet(require('./content/resources.js')),
-    buildingWallet: new Wallet(require('./content/buildings.js')),
+    buildings: new Wallet(require('./content/buildings.js')),
     buttons: require('./content/buttons.js'),
     mousePos: {}
   }
@@ -26,8 +26,8 @@ define(function (require) {
     if (deltaTime2 >= 1000 / settings.updatesPerSecond) {
       deltaTime2 -= 1000 / settings.updatesPerSecond
 
-      Object.keys(game.buildingWallet).forEach(key => {
-        game.buildingWallet[key].effect(game)
+      Object.keys(game.buildings).forEach(key => {
+        game.buildings[key].effect(game)
       })
       game.buttons.forEach(buttonObject => {
         buttonObject.update(game)

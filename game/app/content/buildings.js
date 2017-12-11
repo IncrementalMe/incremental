@@ -4,7 +4,8 @@ define(function (require) {
   var buildings = {
     farm: {
       effect: function (game) {
-        game.wallet.pay('food', -1 * this.amount / settings.updatesPerSecond)
+        var cost = -1 * this.amount / settings.updatesPerSecond
+        game.wallet.pay('food', cost)
       },
       getCost: function () {
         var cost = 1 * Math.pow(10, this.amount)
@@ -12,7 +13,7 @@ define(function (require) {
       },
       build: function (game, amount) {
         if (game.wallet.pay(this.getCost(), amount)) {
-          game.buildingWallet.pay('farm', -amount)
+          game.buildings.pay('farm', -amount)
         }
       }
     }

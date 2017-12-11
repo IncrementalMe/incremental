@@ -10,7 +10,7 @@ define(function (require) {
       weight: 2,
       text: '',
       onClick: function (game) {
-        game.buildingWallet.farm.build(game, 1)
+        game.buildings.farm.build(game, 1)
       },
       hidden: false
     })
