@@ -1,6 +1,7 @@
 define(function () {
-  function prettifySub (number) {
-    number = parseFloat(number.toFixed(3))
+  function prettifySub (number, places) {
+    number = places > 0 ? fixedFloor(number, places) : Math.floor(number)
+
     if (number >= 1000) number = 999
     number = number.toString()
     var hasDecimal = number.split('.')
@@ -10,19 +11,25 @@ define(function () {
     return number.substring(0, 4)
   }
 
-  function formatNumber (number) {
+  function fixedFloor (number, places) {
+    if (places === 0) return Math.floor(number)
+    return Math.floor(number * Math.pow(10, places)) / Math.pow(10, places)
+  }
+
+  function formatNumber (number, DP) {
+    var places = typeof DP === 'undefined' ? 3 : DP
     var numberTmp = number
 
-    if (numberTmp < 0) return number.toFixed(3)
+    if (numberTmp < 0) return fixedFloor(number, places)
 
     number = Math.round(number * 1000000) / 1000000
 
     if (!isFinite(number)) return 'Infinite'
     if (number >= 1000 && number < 10000) return Math.floor(number)
-    if (number === 0) return prettifySub(0)
+    if (number === 0) return prettifySub(0, places)
 
     var base = Math.floor(Math.log(number) / Math.log(1000))
-    if (base <= 0) return prettifySub(number)
+    if (base <= 0) return prettifySub(number, places)
     number /= Math.pow(1000, base)
 
     var suffices = [
@@ -66,7 +73,7 @@ define(function () {
       exponent = exponent.replace('+', '')
       return exponent
     }
-    return prettifySub(number) + suffix
+    return prettifySub(number, places) + suffix
   }
 
   return formatNumber
