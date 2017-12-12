@@ -14,14 +14,7 @@ define(function () {
     }
 
     if (keyOrMap instanceof Map) {
-      var count = 0
-      keyOrMap.forEach((value, key) => {
-        if (this.canPay(key, value)) {
-          count += 1
-        }
-      })
-
-      if (count === keyOrMap.size) {
+      if (this.canPay(keyOrMap)) {
         keyOrMap.forEach((value, key) => {
           this.paySingle(key, value * amount)
         })
@@ -41,7 +34,25 @@ define(function () {
     return false
   }
 
-  Wallet.prototype.canPay = function (resource, amount) {
+  Wallet.prototype.canPay = function (keyOrMap, amount) {
+    if (typeof keyOrMap === 'string') {
+      return this.canPaySingle(keyOrMap, amount)
+    }
+
+    if (keyOrMap instanceof Map) {
+      var count = 0
+      keyOrMap.forEach((value, key) => {
+        if (this.canPaySingle(key, value)) {
+          count += 1
+        }
+      })
+
+      if (count === keyOrMap.size) return true
+      return false
+    }
+  }
+
+  Wallet.prototype.canPaySingle = function (resource, amount) {
     if (this[resource].amount >= amount) {
       return true
     }

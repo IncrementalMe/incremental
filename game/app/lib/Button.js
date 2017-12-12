@@ -6,10 +6,10 @@ define(function () {
     this.height = typeof input.height === 'undefined' ? 30 : input.height
     this.weight = typeof input.weight === 'undefined' ? 2 : input.weight
     this.text = typeof input.text === 'undefined' ? '' : input.text
-    this.color = typeof input.color === 'undefined' ? 'rgb(0,0,0)' : input.color
+    this.fill = typeof input.fill === 'undefined' ? '#000' : input.fill
     this.hidden = typeof input.hidden === 'undefined' ? false : input.hidden
     this.click = typeof input.click === 'undefined' ? () => {} : input.click
-    this.hover = 0
+    this.hover = false
   }
 
   Button.prototype.tryClick = function (game) {
@@ -18,26 +18,23 @@ define(function () {
     }
   }
 
-  Button.prototype.draw = function (ctx) {
+  Button.prototype.draw = function (game, ctx) {
     if (this.hidden === false) {
+      if (this.pointOnObject(game.mousePos)) {
+        this.hover = true
+      } else {
+        this.hover = false
+      }
       var x = this.x - this.width / 2
       var y = this.y - this.height / 2
 
       ctx.strokeRect(x, y, this.width, this.height)
-      ctx.strokeStyle = this.color
-      ctx.lineWidth = this.weight + this.hover
+      ctx.strokeStyle = this.fill
+      ctx.lineWidth = this.weight + this.hover / 5
 
-      ctx.fillStyle = this.color
+      ctx.fillStyle = this.fill
       ctx.font = '18px monospace'
       ctx.fillText(this.text, x + 8, y + 21)
-    }
-  }
-
-  Button.prototype.update = function (game) {
-    if (this.pointOnObject(game.mousePos)) {
-      this.hover = 1
-    } else {
-      this.hover = 0
     }
   }
 

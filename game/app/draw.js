@@ -47,8 +47,6 @@ define(function (require) {
     }
 
     game.buildings.farm.draw(game, ctx)
-
-    ctx.restore()
   }
 
   return { start: start, draw: draw }

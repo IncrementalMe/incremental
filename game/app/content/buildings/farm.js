@@ -1,9 +1,11 @@
 define(function (require) {
   var formatNumber = require('lib/formatNumber')
   var Button = require('lib/Button')
+  var sfx = require('lib/sfx')
 
   var farm = {
     name: 'farm',
+    count: 0,
     defaultEffects: [
       {
         target: 'resources',
@@ -16,35 +18,58 @@ define(function (require) {
       return new Map([['food', cost]])
     },
     draw: function (game, ctx) {
-      var text
+      if (this.buttons.get('build').hover) this.count++
+      else this.count = 0
 
+      ctx.restore()
       ctx.fillStyle = '#000'
-      ctx.font = '26px monospace'
-      ctx.textAlign = 'left'
-      // Farm
       ctx.font = '22px monospace'
-      if (game.buildings.farm.amount > 0) {
-        ctx.fillText('Farm', 389, 506)
-        ctx.textAlign = 'right'
-        ctx.fillText(game.buildings.farm.amount, 511, 506)
+      ctx.textAlign = 'left'
+
+      this.buttons.get('build').fill = '#000'
+
+      ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
+      this.drawTitle(game, ctx)
+      this.drawPrice(game, ctx)
+      this.buttons.forEach(btt => {
+        btt.draw(game, ctx)
+      })
+    },
+    drawTitle: function (game, ctx) {
+      if (this.amount > 0) {
+        this.drawNormalTitle(game, ctx)
+      } else {
+        this.drawBuildTitle(game, ctx)
+      }
+    },
+    drawNormalTitle: function (game, ctx) {
+      ctx.fillText('Farm', 389, 506)
+      ctx.textAlign = 'right'
+      ctx.fillText(this.amount, 511, 506)
+    },
+    drawBuildTitle: function (game, ctx) {
+      var hover = this.buttons.get('build').hover
+      var canPay = game.resources.canPay(this.getCost())
+
+      if (hover && canPay) {
+        ctx.fillStyle = '#2a2'
+        sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
+        this.buttons.get('build').fill = '#2a2'
       } else {
         ctx.fillText('Build Farm', 389, 506)
       }
-      ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
+    },
+    drawPrice: function (game, ctx) {
+      var cost = formatNumber(this.getCost().get('food'))
+
       ctx.font = '20px monospace'
-
       ctx.textAlign = 'right'
-      text = formatNumber(game.buildings.farm.getCost().get('food'))
-      ctx.fillText(text, 450, 602)
+      ctx.fillText(cost, 450, 602)
       ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
-
-      this.buttons.forEach((btt) => {
-        btt.draw(ctx)
-      })
     }
   }
 
-  var buildButton = new Button({
+  var build = new Button({
     x: 450,
     y: 564,
     width: 120,
@@ -57,7 +82,7 @@ define(function (require) {
     hidden: false
   })
 
-  farm.buttons = new Map([['build', buildButton]])
+  farm.buttons = new Map([['build', build]])
 
   return farm
 })
