@@ -46,27 +46,12 @@ define(function (require) {
       ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 45, 4, 28, 28)
     }
 
-    // Farm
-    ctx.font = '22px monospace'
-    if (game.buildings.farm.amount > 0) {
-      ctx.fillText('Farm', 389, 506)
-      ctx.textAlign = 'right'
-      ctx.fillText(game.buildings.farm.amount, 511, 506)
-    } else {
-      ctx.fillText('Build Farm', 389, 506)
-    }
-    ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
-    ctx.font = '20px monospace'
-
-    ctx.textAlign = 'right'
-    text = formatNumber(game.buildings.farm.getCost().get('food'))
-    ctx.fillText(text, 450, 602)
-    ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
-
     // Buttons
     game.buttons.forEach(button => {
       button.draw(ctx)
     })
+
+    game.buildings.farm.draw(game, ctx)
 
     ctx.restore()
   }

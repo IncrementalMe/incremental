@@ -2,18 +2,7 @@ define(function (require) {
   var Building = require('lib/Building')
 
   var buildings = {
-    farm: new Building({
-      name: 'farm',
-      defaultEffects: [{
-        target: 'wallet',
-        resource: 'food',
-        amount: -1
-      }],
-      getCost: function () {
-        var cost = 1 * Math.pow(10, this.amount)
-        return new Map([['food', cost]])
-      }
-    })
+    farm: new Building(require('content/buildings/farm'))
   }
 
   return buildings
