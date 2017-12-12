@@ -1,18 +1,19 @@
 define(function (require) {
   var draw = require('draw')
-  var fps = require('fps')
+  var tick = require('tick')
 
   var game
 
   function start (gameIn) {
     game = gameIn
     draw.start()
-    fps.start()
+    tick.start()
     window.requestAnimationFrame(loop)
   }
 
   function loop () {
-    if (fps.tick()) update()
+    if (tick.tick()) update()
+
     draw.draw(game)
 
     window.requestAnimationFrame(loop)
