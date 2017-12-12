@@ -9,7 +9,7 @@ define(function (require) {
       height: 108,
       weight: 2,
       text: '',
-      onClick: function (game) {
+      click: function (game) {
         game.buildings.farm.build(game, 1)
       },
       hidden: false

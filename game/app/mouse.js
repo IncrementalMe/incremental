@@ -10,7 +10,7 @@ define(function () {
         game.mousePos.y = e.clientY - canvasRect.top
 
         game.buttons.forEach(btt => {
-          btt.clickCheck(game)
+          btt.tryClick(game)
         })
       },
       false
