@@ -4,7 +4,7 @@
   "repository": "https://github.com/IncrementalMe/incremental",
   "amd": {},
   "volo": {
-    "baseUrl": "game/lib"
+    "baseUrl": "game/app"
   },
   "devDependencies": {
     "standard": "^10.0.3"
