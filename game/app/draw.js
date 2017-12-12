@@ -2,7 +2,7 @@ define(function (require) {
   var formatNumber = require('lib/formatNumber')
   var ctx
 
-  function start (loop) {
+  function start () {
     ctx = document.getElementById('canvas').getContext('2d')
     ctx.canvas.width = 900
     ctx.canvas.height = 650
@@ -14,7 +14,6 @@ define(function (require) {
     createImage('img/Andre/food.png')
 
     ctx.save()
-    window.requestAnimationFrame(loop)
   }
 
   function createImage (src) {
