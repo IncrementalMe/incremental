@@ -5,13 +5,13 @@ define(function (require) {
   var loop = require('loop')
 
   var game = {
-    wallet: new Wallet(require('content/resources')),
+    resources: new Wallet(require('content/resources')),
     buildings: new Wallet(require('content/buildings')),
     buttons: require('content/buttons'),
     mousePos: {}
   }
   effects.initializeBuildingEffects(game)
-  game.wallet.food.amount = 1
+  game.resources.food.amount = 1
 
   mouse.start(game)
   loop.start(game)
