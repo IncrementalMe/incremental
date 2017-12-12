@@ -1,37 +1,32 @@
 define(function (require) {
-  var settings = require('settings')
   var draw = require('draw')
+  var fps = require('fps')
 
-  var lastTick = new Date().getTime()
-  var deltaTime2 = 0
   var game
 
   function start (gameIn) {
     game = gameIn
     draw.start()
+    fps.start()
     window.requestAnimationFrame(loop)
   }
 
   function loop () {
-    var now = new Date().getTime()
-    var deltaTime = now - lastTick
-    deltaTime2 += deltaTime
-    lastTick = now
-
-    if (deltaTime2 >= 1000 / settings.updatesPerSecond) {
-      deltaTime2 -= 1000 / settings.updatesPerSecond
-
-      Object.keys(game.buildings).forEach(key => {
-        game.buildings[key].effects.forEach(effect => {
-          effect.do(game)
-        })
-      })
-      game.buttons.forEach(buttonObject => {
-        buttonObject.update(game)
-      })
-    }
+    if (fps.tick()) update()
     draw.draw(game)
+
     window.requestAnimationFrame(loop)
+  }
+
+  function update () {
+    Object.keys(game.buildings).forEach(key => {
+      game.buildings[key].effects.forEach(effect => {
+        effect.do(game)
+      })
+    })
+    game.buttons.forEach(buttonObject => {
+      buttonObject.update(game)
+    })
   }
 
   return { start: start }
