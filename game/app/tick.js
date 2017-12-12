@@ -15,10 +15,11 @@ define(function (require) {
     lastTick = now
 
     if (totalDeltaTime >= 1000 / settings.ups) {
-      totalDeltaTime -= 1000 / settings.ups
-      return true
+      var ticks = Math.floor(totalDeltaTime / (1000 / settings.ups))
+      totalDeltaTime -= 1000 / settings.ups * ticks
+      return ticks
     }
-    return false
+    return 0
   }
 
   return { start: start, tick: tick }

@@ -12,19 +12,19 @@ define(function (require) {
   }
 
   function loop () {
-    if (tick.tick()) update()
-
+    update(tick.tick())
     draw.draw(game)
-
     window.requestAnimationFrame(loop)
   }
 
-  function update () {
-    Object.keys(game.buildings).forEach(key => {
-      game.buildings[key].effects.forEach(effect => {
-        effect.do(game)
+  function update (ticks) {
+    if (ticks > 0) {
+      Object.keys(game.buildings).forEach(key => {
+        game.buildings[key].effects.forEach(effect => {
+          effect.do(game, ticks)
+        })
       })
-    })
+    }
   }
 
   return { start: start }
