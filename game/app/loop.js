@@ -25,9 +25,6 @@ define(function (require) {
         effect.do(game)
       })
     })
-    game.buttons.forEach(buttonObject => {
-      buttonObject.update(game)
-    })
   }
 
   return { start: start }

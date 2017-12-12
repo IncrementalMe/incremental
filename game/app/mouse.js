@@ -9,8 +9,10 @@ define(function () {
         game.mousePos.x = e.clientX - canvasRect.left
         game.mousePos.y = e.clientY - canvasRect.top
 
-        game.buttons.forEach(btt => {
-          btt.tryClick(game)
+        Object.keys(game.buildings).forEach(key => {
+          game.buildings[key].buttons.forEach(btt => {
+            btt.tryClick(game)
+          })
         })
       },
       false

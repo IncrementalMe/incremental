@@ -46,11 +46,6 @@ define(function (require) {
       ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 45, 4, 28, 28)
     }
 
-    // Buttons
-    game.buttons.forEach(button => {
-      button.draw(ctx)
-    })
-
     game.buildings.farm.draw(game, ctx)
 
     ctx.restore()

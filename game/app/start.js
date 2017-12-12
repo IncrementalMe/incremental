@@ -7,7 +7,6 @@ define(function (require) {
   var game = {
     resources: new Wallet(require('content/resources')),
     buildings: new Wallet(require('content/buildings')),
-    buttons: require('content/buttons'),
     mousePos: {}
   }
   effects.initializeBuildingEffects(game)
