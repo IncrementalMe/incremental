@@ -14,8 +14,8 @@ define(function (require) {
     totalDeltaTime += deltaTime
     lastTick = now
 
-    if (totalDeltaTime >= 1000 / settings.updatesPerSecond) {
-      totalDeltaTime -= 1000 / settings.updatesPerSecond
+    if (totalDeltaTime >= 1000 / settings.ups) {
+      totalDeltaTime -= 1000 / settings.ups
       return true
     }
     return false
