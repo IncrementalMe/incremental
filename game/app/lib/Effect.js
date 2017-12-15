@@ -10,8 +10,8 @@ define(function (require) {
   }
 
   Effect.prototype.do = function (game) {
-    if (this.parent.amount > 0) {
-      var cost = this.amount * this.parent.amount
+    if (this.parent.built) {
+      var cost = this.amount
       game[this.target].pay(this.resource, cost / settings.ups, true)
     }
   }

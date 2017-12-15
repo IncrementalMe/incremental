@@ -11,7 +11,8 @@ define(function (require) {
   }
   Building.prototype.doEffect = function (game) {}
 
-  Building.prototype.xpAdd = function (amount) {
+  Building.prototype.xpAdd = function (value) {
+    this.xp += value
     while (this.xp > this.xpNextLevel) {
       this.level += 1
       this.points += 1
