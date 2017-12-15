@@ -1,4 +1,12 @@
 define(function () {
+  var sfxHolder = []
+
+  function draw (ctx) {
+    sfxHolder.forEach(sfx => {
+      sfx.draw(ctx)
+    })
+  }
+
   function happyDraw (ctx, text, x, y, count) {
     var pos = { x: x, y: y }
     text.split('').forEach(char => {
@@ -15,5 +23,35 @@ define(function () {
     })
   }
 
-  return {happyDraw: happyDraw}
+  function Sprite (sprite, pos, speed, life) {
+    this.image = sprite
+    this.pos = pos
+    this.speed = speed
+    this.maxLife = life
+    this.life = life
+    this.direction = -135 + Math.random() * 90
+    this.draw = function (ctx) {
+      if (this.life < 1) {
+        sfxHolder.slice(sfxHolder.indexOf(this), 1)
+      } else {
+        ctx.globalAlpha = 1 / this.maxLife * this.life
+        ctx.drawImage(ctx.images.food, this.pos.x, this.pos.y, 17, 17)
+        ctx.globalAlpha = 1
+
+        this.pos.x += Math.cos(this.direction / 360 * 2 * Math.PI)
+        this.pos.y += Math.sin(this.direction / 360 * 2 * Math.PI)
+        this.life--
+      }
+    }
+  }
+
+  function createSprite (sprite, pos, speed = 13, life = 53) {
+    sfxHolder.push(new Sprite(sprite, pos, speed, life))
+  }
+
+  return {
+    happyDraw: happyDraw,
+    createSprite: createSprite,
+    draw: draw
+  }
 })

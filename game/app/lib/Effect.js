@@ -9,9 +9,9 @@ define(function (require) {
     this.parent = preEffect.parent
   }
 
-  Effect.prototype.do = function (game, multiplier) {
+  Effect.prototype.do = function (game) {
     if (this.parent.amount > 0) {
-      var cost = this.amount * this.parent.amount * multiplier
+      var cost = this.amount * this.parent.amount
       game[this.target].pay(this.resource, cost / settings.ups, true)
     }
   }

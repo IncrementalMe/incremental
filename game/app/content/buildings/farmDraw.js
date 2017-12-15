@@ -1,8 +1,10 @@
 define(function (require) {
   var formatNumber = require('lib/formatNumber')
-  var sfx = require('lib/sfx')
+  var settings = require('settings')
 
   var farmDraw = {
+    sfx: require('lib/sfx'),
+    gameLogicUpdates: 0,
     count: 0,
     draw: function (game, ctx) {
       ctx.restore()
@@ -11,13 +13,24 @@ define(function (require) {
       this.increment(game.buildings.farm)
       this.drawImage(ctx, game.buildings.farm)
 
-      if (game.buildings.farm.built === false) {
+      if (game.buildings.farm.built) {
+        this.drawNormal(ctx, game.buildings.farm)
+        if (this.gameLogicUpdates >= settings.ups) {
+          this.sfx.createSprite(ctx.images.food, {x: 444, y: 546})
+          this.gameLogicUpdates -= settings.ups
+        }
+      } else {
         this.drawBuild(game, ctx, game.buildings.farm)
-      } else this.drawNormal(ctx, game.buildings.farm)
+      }
 
       game.buildings.farm.buttons.forEach(value => {
         value.draw(game, ctx)
       })
+
+      this.sfx.draw(ctx)
+    },
+    logicTick: function () {
+      this.gameLogicUpdates++
     },
     increment: function (farm) {
       if (farm.buttons.get('click').hover) {
@@ -43,7 +56,7 @@ define(function (require) {
       if (farm.buttons.get('click').hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
         farm.buttons.get('click').fill = '#2a2'
-        sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
+        this.sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
       } else {
         ctx.fillText('Build Farm', 389, 506)
       }
@@ -68,5 +81,6 @@ define(function (require) {
       }
     }
   }
+
   return farmDraw
 })

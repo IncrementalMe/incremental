@@ -46,7 +46,9 @@ define(function (require) {
       ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 45, 4, 28, 28)
     }
 
-    game.buildings.farm.draw(game, ctx)
+    Object.keys(game.buildings).forEach(key => {
+      game.buildings[key].drawObject.draw(game, ctx)
+    })
   }
 
   return { start: start, draw: draw }

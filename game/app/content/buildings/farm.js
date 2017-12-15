@@ -2,7 +2,7 @@ define(function (require) {
   var Button = require('lib/Button')
 
   var farm = {
-    farmDraw: require('content/buildings/farmDraw'),
+    drawObject: require('content/buildings/farmDraw'),
     name: 'farm',
     buildCost: new Map([['food', 100]]),
     buttons: new Map([]),
@@ -12,10 +12,7 @@ define(function (require) {
         resource: 'food',
         amount: -1
       }
-    ],
-    draw: function (game, ctx) {
-      this.farmDraw.draw(game, ctx)
-    }
+    ]
   }
 
   var click = new Button({
