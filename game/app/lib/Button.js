@@ -9,6 +9,7 @@ define(function () {
     this.fill = typeof input.fill === 'undefined' ? '#000' : input.fill
     this.hidden = typeof input.hidden === 'undefined' ? false : input.hidden
     this.click = typeof input.click === 'undefined' ? () => {} : input.click
+    this.topOnly = false
     this.hover = false
   }
 
@@ -28,12 +29,14 @@ define(function () {
       var x = this.x - this.width / 2
       var y = this.y - this.height / 2
 
-      ctx.strokeRect(x, y, this.width, this.height)
+      ctx.restore()
+      ctx.font = '18px monospace'
+      ctx.fillStyle = this.fill
       ctx.strokeStyle = this.fill
       ctx.lineWidth = this.weight + this.hover / 5
 
-      ctx.fillStyle = this.fill
-      ctx.font = '18px monospace'
+      if (this.topOnly) ctx.strokeRect(x, y, this.width + 1, 0)
+      else ctx.strokeRect(x, y, this.width, this.height)
       ctx.fillText(this.text, x + 8, y + 21)
     }
   }

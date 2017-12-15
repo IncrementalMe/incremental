@@ -14,62 +14,79 @@ define(function (require) {
       }
     ],
     getCost: function () {
-      var cost = 1 * Math.pow(10, this.amount)
+      var cost = 100
       return new Map([['food', cost]])
     },
     draw: function (game, ctx) {
-      if (this.buttons.get('build').hover) this.count++
-      else this.count = 0
+      if (this.buttons.get('click').hover) {
+        this.count++
+      } else {
+        this.count = 0
+      }
 
+      ctx.restore()
+      this.buttons.get('click').fill = '#000'
+
+      this.drawImage(game, ctx)
+
+      if (this.amount === 0) {
+        this.drawBuildTitle(game, ctx)
+        this.drawPrice(game, ctx)
+      } else {
+        this.drawNormalTitle(game, ctx)
+      }
+
+      this.buttons.forEach(btt => {
+        btt.draw(game, ctx)
+      })
+    },
+    drawImage: function (game, ctx) {
+      ctx.globalAlpha = 0.4
+      if (this.amount > 0) ctx.globalAlpha = 1
+      else if (this.buttons.get('click').hover) ctx.globalAlpha = 0.7
+      ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
+      ctx.globalAlpha = 1
+    },
+    drawBuildTitle: function (game, ctx) {
       ctx.restore()
       ctx.fillStyle = '#000'
       ctx.font = '22px monospace'
       ctx.textAlign = 'left'
 
-      this.buttons.get('build').fill = '#000'
-
-      ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
-      this.drawTitle(game, ctx)
-      this.drawPrice(game, ctx)
-      this.buttons.forEach(btt => {
-        btt.draw(game, ctx)
-      })
-    },
-    drawTitle: function (game, ctx) {
-      if (this.amount > 0) {
-        this.drawNormalTitle(game, ctx)
-      } else {
-        this.drawBuildTitle(game, ctx)
-      }
-    },
-    drawNormalTitle: function (game, ctx) {
-      ctx.fillText('Farm', 389, 506)
-      ctx.textAlign = 'right'
-      ctx.fillText(this.amount, 511, 506)
-    },
-    drawBuildTitle: function (game, ctx) {
-      var hover = this.buttons.get('build').hover
+      var hover = this.buttons.get('click').hover
       var canPay = game.resources.canPay(this.getCost())
 
       if (hover && canPay) {
         ctx.fillStyle = '#2a2'
+        this.buttons.get('click').fill = '#2a2'
         sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
-        this.buttons.get('build').fill = '#2a2'
       } else {
         ctx.fillText('Build Farm', 389, 506)
       }
     },
-    drawPrice: function (game, ctx) {
-      var cost = formatNumber(this.getCost().get('food'))
+    drawNormalTitle: function (game, ctx) {
+      ctx.restore()
+      ctx.fillStyle = '#000'
+      ctx.font = '22px monospace'
+      ctx.textAlign = 'left'
 
+      ctx.fillText('Farm', 389, 506)
+      ctx.textAlign = 'right'
+      ctx.fillText(this.amount, 511, 506)
+    },
+    drawPrice: function (game, ctx) {
+      ctx.restore()
+      ctx.fillStyle = '#000'
       ctx.font = '20px monospace'
       ctx.textAlign = 'right'
+
+      var cost = formatNumber(this.getCost().get('food'))
       ctx.fillText(cost, 450, 602)
       ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
     }
   }
 
-  var build = new Button({
+  var click = new Button({
     x: 450,
     y: 564,
     width: 120,
@@ -77,12 +94,16 @@ define(function (require) {
     weight: 2,
     text: '',
     click: function (game) {
-      game.buildings.farm.build(game, 1)
+      if (game.buildings.farm.build(game, 1)) {
+        this.click = function (game) {
+          // open tech tree
+        }
+      }
     },
     hidden: false
   })
 
-  farm.buttons = new Map([['build', build]])
+  farm.buttons = new Map([['click', click]])
 
   return farm
 })

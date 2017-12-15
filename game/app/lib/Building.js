@@ -18,7 +18,9 @@ define(function (require) {
   Building.prototype.build = function (game, amount) {
     if (game.resources.pay(this.getCost(), amount)) {
       game.buildings.pay(this.name, -amount)
+      return true
     }
+    return false
   }
 
   return Building

@@ -10,7 +10,8 @@ define(function (require) {
     mousePos: {}
   }
   effects.initializeBuildingEffects(game)
-  game.resources.food.amount = 1
+  game.resources.pay('food', -100)
+  game.resources.pay('gold', -42)
 
   mouse.start(game)
   loop.start(game)
