@@ -38,6 +38,7 @@ define(function () {
       if (this.topOnly) ctx.strokeRect(x, y, this.width + 1, 0)
       else ctx.strokeRect(x, y, this.width, this.height)
       ctx.fillText(this.text, x + 8, y + 21)
+      ctx.restore()
     }
   }
 

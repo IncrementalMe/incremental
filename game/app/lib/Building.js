@@ -23,5 +23,10 @@ define(function (require) {
     return false
   }
 
+  Building.prototype.canBuild = function (game, amount) {
+    var cost = game.buildings[this.name].getCost()
+    return game.resources.canPay(cost, amount)
+  }
+
   return Building
 })
