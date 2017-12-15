@@ -14,9 +14,9 @@ define(function () {
     }
 
     if (keyOrMap instanceof Map) {
-      if (this.canPay(keyOrMap)) {
+      if (allowNegative || this.canPay(keyOrMap)) {
         keyOrMap.forEach((value, key) => {
-          this.paySingle(key, value * amount)
+          this.paySingle(key, value * amount, allowNegative)
         })
         return true
       }

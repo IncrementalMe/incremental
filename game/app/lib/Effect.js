@@ -12,7 +12,7 @@ define(function (require) {
   Effect.prototype.do = function (game, multiplier) {
     if (this.parent.amount > 0) {
       var cost = this.amount * this.parent.amount * multiplier
-      game[this.target].pay(this.resource, cost / settings.ups)
+      game[this.target].pay(this.resource, cost / settings.ups, true)
     }
   }
 
