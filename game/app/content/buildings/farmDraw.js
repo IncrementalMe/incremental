@@ -11,7 +11,7 @@ define(function (require) {
       this.increment(game.buildings.farm)
       this.drawImage(ctx, game.buildings.farm)
 
-      if (game.buildings.farm.amount === 0) {
+      if (game.buildings.farm.built === false) {
         this.drawBuild(game, ctx, game.buildings.farm)
       } else this.drawNormal(ctx, game.buildings.farm)
 
@@ -29,7 +29,7 @@ define(function (require) {
     },
     drawImage: function (ctx, farm) {
       ctx.globalAlpha = 0.4
-      if (farm.amount > 0) ctx.globalAlpha = 1
+      if (farm.built) ctx.globalAlpha = 1
       else if (farm.buttons.get('click').hover) ctx.globalAlpha = 0.7
 
       ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
@@ -40,7 +40,7 @@ define(function (require) {
       ctx.font = '22px monospace'
       ctx.textAlign = 'left'
 
-      if (farm.buttons.get('click').hover && farm.canBuild(game, 1)) {
+      if (farm.buttons.get('click').hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
         farm.buttons.get('click').fill = '#2a2'
         sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
@@ -48,11 +48,10 @@ define(function (require) {
         ctx.fillText('Build Farm', 389, 506)
       }
 
-      ctx.fillStyle = '#000'
       ctx.font = '20px monospace'
       ctx.textAlign = 'right'
 
-      var cost = formatNumber(farm.getCost().get('food'))
+      var cost = formatNumber(farm.buildCost.get('food'))
       ctx.fillText(cost, 450, 602)
       ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
     },
@@ -62,8 +61,11 @@ define(function (require) {
       ctx.textAlign = 'left'
 
       ctx.fillText('Farm', 389, 506)
-      ctx.textAlign = 'right'
-      ctx.fillText(farm.amount, 511, 506)
+
+      if (farm.points > 0) {
+        ctx.textAlign = 'right'
+        ctx.fillText('+' + farm.points, 511, 506)
+      }
     }
   }
   return farmDraw

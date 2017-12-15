@@ -4,7 +4,7 @@ define(function (require) {
   var farm = {
     farmDraw: require('content/buildings/farmDraw'),
     name: 'farm',
-    count: 0,
+    buildCost: new Map([['food', 100]]),
     buttons: new Map([]),
     defaultEffects: [
       {
@@ -13,9 +13,6 @@ define(function (require) {
         amount: -1
       }
     ],
-    getCost: function () {
-      return new Map([['food', 100]])
-    },
     draw: function (game, ctx) {
       this.farmDraw.draw(game, ctx)
     }
@@ -30,8 +27,12 @@ define(function (require) {
     text: '',
     click: function (game) {
       var farm = game.buildings.farm
-      if (farm.build(game, 1)) {
+
+      if (farm.build(game)) {
         farm.buttons.get('click').topOnly = true
+        this.click = function (game) {
+          // Open Tech Tree
+        }
       }
     },
     hidden: false

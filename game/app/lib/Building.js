@@ -3,29 +3,39 @@ define(function (require) {
     Object.keys(input).forEach(key => {
       this[key] = input[key]
     })
-  }
 
-  Building.prototype.getEffect = function (game) {
-    return new Map([[]])
+    this.built = false
+    this.xp = 0
+    this.level = 0
+    this.points = 0
   }
-
   Building.prototype.doEffect = function (game) {}
 
-  Building.prototype.getCost = function () {
-    return new Map([[]])
+  Building.prototype.xpAdd = function (amount) {
+    while (this.xp > this.xpNextLevel) {
+      this.level += 1
+      this.points += 1
+    }
   }
 
-  Building.prototype.build = function (game, amount) {
-    if (game.resources.pay(this.getCost(), amount)) {
-      game.buildings.pay(this.name, -amount)
-      return true
+  Building.prototype.xpNextLevel = function () {
+    return Math.pow(10, 1 + this.level)
+  }
+
+  Building.prototype.build = function (game) {
+    if (this.built === false) {
+      if (game.resources.pay(this.buildCost)) {
+        game.buildings.pay(this.name, -1)
+        this.built = true
+        return true
+      }
     }
     return false
   }
 
-  Building.prototype.canBuild = function (game, amount) {
-    var cost = game.buildings[this.name].getCost()
-    return game.resources.canPay(cost, amount)
+  Building.prototype.canBuild = function (game) {
+    var cost = game.buildings[this.name].buildCost
+    return game.resources.canPay(cost)
   }
 
   return Building
