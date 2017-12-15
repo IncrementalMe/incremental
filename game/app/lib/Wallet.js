@@ -6,7 +6,7 @@ define(function () {
     })
   }
 
-  Wallet.prototype.pay = function (keyOrMap, amount, allowNegative = false) {
+  Wallet.prototype.pay = function (keyOrMap, amount = 1, allowNegative = false) {
     if (amount === 0) return true
 
     if (typeof keyOrMap === 'string') {
