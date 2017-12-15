@@ -8,23 +8,25 @@ define(function (require) {
     count: 0,
     draw: function (game, ctx) {
       ctx.restore()
-      game.buildings.farm.buttons.get('click').fill = '#000'
 
-      this.increment(game.buildings.farm)
-      this.drawImage(ctx, game.buildings.farm)
+      var farm = game.buildings.farm
+      farm.buttons.get('click').fill = '#000'
 
-      if (game.buildings.farm.built) {
-        this.drawNormal(ctx, game.buildings.farm)
+      this.incrementCounter(farm)
+      this.drawImage(ctx, farm)
+
+      if (farm.built) {
+        this.drawNormal(ctx, farm)
         if (this.gameLogicUpdates >= settings.ups) {
           this.sfx.createSprite(ctx.images.food, {x: 444, y: 546})
           this.gameLogicUpdates -= settings.ups
         }
       } else {
-        this.drawBuild(game, ctx, game.buildings.farm)
+        this.drawBuild(game, ctx, farm)
       }
 
-      game.buildings.farm.buttons.forEach(value => {
-        value.draw(game, ctx)
+      farm.buttons.forEach(btt => {
+        btt.draw(game, ctx)
       })
 
       this.sfx.draw(ctx)
@@ -32,7 +34,7 @@ define(function (require) {
     logicTick: function () {
       this.gameLogicUpdates++
     },
-    increment: function (farm) {
+    incrementCounter: function (farm) {
       if (farm.buttons.get('click').hover) {
         this.count++
         return this.count
