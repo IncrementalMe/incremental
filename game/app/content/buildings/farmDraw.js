@@ -61,13 +61,23 @@ define(function (require) {
         ctx.fillStyle = '#2a2'
         farm.buttons.get('click').fill = '#2a2'
         this.sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
+        var button = farm.buttons.get('click')
+        var rect = {
+          x: button.x - button.width / 2,
+          y: button.y - button.height / 2,
+          width: button.width,
+          height: button.height
+        }
+        ctx.fillStyle = '#2a2'
+        ctx.globalAlpha = 0.1
+        ctx.fillRect(rect.x, rect.y, rect.width, rect.height)
+        ctx.globalAlpha = 1
       } else {
         ctx.fillText('Build Farm', 389, 506)
       }
 
       ctx.font = '20px monospace'
       ctx.textAlign = 'right'
-
       var cost = formatNumber(farm.buildCost.get('food'))
       ctx.fillText(cost, 450, 602)
       ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
@@ -83,6 +93,17 @@ define(function (require) {
         ctx.textAlign = 'right'
         ctx.fillText('+' + farm.points, 511, 506)
       }
+
+      ctx.font = '20px monospace'
+      var text = formatNumber(-farm.effects[0].amount, 1)
+      if (-farm.effects[0].amount > 0) {
+        text = '+' + text
+      } else {
+        text = '-' + text
+      }
+      ctx.fillText(text, 420, 603)
+      ctx.fillText('/s', 428 + ctx.measureText(text).width, 603)
+      ctx.drawImage(ctx.images.food, 393, 585, 21, 21)
     }
   }
 

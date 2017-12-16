@@ -36,12 +36,12 @@ define(function (require) {
     ctx.font = '26px monospace'
     ctx.textAlign = 'left'
 
-    text = formatNumber(game.resources.food.amount, 0)
+    text = formatNumber(game.resources.food.amount)
     ctx.fillText(text, ctx.canvas.width / 2 - 232, 27)
     ctx.drawImage(ctx.images.food, ctx.canvas.width / 2 - 270, 4, 28, 28)
 
     if (game.resources.gold.amount > 0) {
-      text = formatNumber(game.resources.gold.amount, 1)
+      text = formatNumber(game.resources.gold.amount)
       ctx.fillText(text, ctx.canvas.width / 2 - 7, 28)
       ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 45, 4, 28, 28)
     }

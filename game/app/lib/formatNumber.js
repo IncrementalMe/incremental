@@ -1,14 +1,41 @@
 define(function () {
+  var suffices = [
+    'K',
+    'M',
+    'B',
+    'T',
+    'Qa',
+    'Qi',
+    'Sx',
+    'Sp',
+    'Oc',
+    'No',
+    'De',
+    'Ud',
+    'Dd',
+    'Td',
+    'Qad',
+    'Qid',
+    'Sxd',
+    'Spd',
+    'Od',
+    'Nd',
+    'V',
+    'Uv',
+    'Dv',
+    'Tv',
+    'Qav',
+    'Qiv',
+    'Sxv',
+    'Spv',
+    'Ov',
+    'Nv',
+    'Tt'
+  ]
+
   function prettifySub (number, places) {
     number = places > 0 ? fixedFloor(number, places) : Math.floor(number)
-
-    if (number >= 1000) number = 999
-    number = number.toString()
-    var hasDecimal = number.split('.')
-    if (typeof hasDecimal[1] === 'undefined' || hasDecimal[0].length >= 3) {
-      return number.substring(0, 3)
-    }
-    return number.substring(0, 4)
+    return fixedFloor(number, places).toFixed(places)
   }
 
   function fixedFloor (number, places) {
@@ -16,55 +43,22 @@ define(function () {
     return Math.floor(number * Math.pow(10, places)) / Math.pow(10, places)
   }
 
-  function formatNumber (number, DP) {
-    var places = typeof DP === 'undefined' ? 3 : DP
+  function formatNumber (number) {
+    var places = 0
+    if (number > 10000 || number < -10000) places = 1
+
     var numberTmp = number
-
     if (numberTmp < 0) return fixedFloor(number, places)
+    numberTmp = Math.round(number * 1000000) / 1000000
 
-    number = Math.round(number * 1000000) / 1000000
+    if (!isFinite(numberTmp)) return 'Infinite'
+    if (numberTmp === 0) return prettifySub(0, places)
+    if (numberTmp >= 1000 && numberTmp < 10000) return Math.floor(numberTmp)
 
-    if (!isFinite(number)) return 'Infinite'
-    if (number >= 1000 && number < 10000) return Math.floor(number)
-    if (number === 0) return prettifySub(0, places)
+    var base = Math.floor(Math.log(numberTmp) / Math.log(1000))
+    if (base <= 0) return prettifySub(numberTmp, places)
+    numberTmp /= Math.pow(1000, base)
 
-    var base = Math.floor(Math.log(number) / Math.log(1000))
-    if (base <= 0) return prettifySub(number, places)
-    number /= Math.pow(1000, base)
-
-    var suffices = [
-      'K',
-      'M',
-      'B',
-      'T',
-      'Qa',
-      'Qi',
-      'Sx',
-      'Sp',
-      'Oc',
-      'No',
-      'De',
-      'Ud',
-      'Dd',
-      'Td',
-      'Qad',
-      'Qid',
-      'Sxd',
-      'Spd',
-      'Od',
-      'Nd',
-      'V',
-      'Uv',
-      'Dv',
-      'Tv',
-      'Qav',
-      'Qiv',
-      'Sxv',
-      'Spv',
-      'Ov',
-      'Nv',
-      'Tt'
-    ]
     var suffix
     if (base <= suffices.length && base > 0) {
       suffix = suffices[base - 1]
@@ -73,7 +67,9 @@ define(function () {
       exponent = exponent.replace('+', '')
       return exponent
     }
-    return prettifySub(number, places) + suffix
+    if (numberTmp < 10) return prettifySub(numberTmp, 2) + suffix
+    if (numberTmp < 100) return prettifySub(numberTmp, 1) + suffix
+    return prettifySub(numberTmp, 0) + suffix
   }
 
   return formatNumber
