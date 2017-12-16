@@ -20,7 +20,7 @@ define(function (require) {
   function update (ticks) {
     if (ticks > 0) {
       Object.keys(game.buildings).forEach(key => {
-        game.buildings[key].drawObject.logicTick()
+        game.buildings[key].drawObject.logicTick(game)
         game.buildings[key].effects.forEach(effect => {
           effect.do(game)
         })

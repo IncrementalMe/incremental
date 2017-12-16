@@ -18,7 +18,7 @@ define(function (require) {
       if (farm.built) {
         this.drawNormal(ctx, farm)
         if (this.gameLogicUpdates >= settings.ups) {
-          this.sfx.createSprite(ctx.images.food, {x: 444, y: 546})
+          this.sfx.createSprite(ctx.images.food, { x: 444, y: 546 })
           this.gameLogicUpdates -= settings.ups
         }
       } else {
@@ -31,8 +31,10 @@ define(function (require) {
 
       this.sfx.draw(ctx)
     },
-    logicTick: function () {
-      this.gameLogicUpdates++
+    logicTick: function (game) {
+      if (game.buildings.farm.built) {
+        this.gameLogicUpdates++
+      }
     },
     incrementCounter: function (farm) {
       if (farm.buttons.get('click').hover) {
