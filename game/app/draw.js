@@ -33,8 +33,15 @@ define(function (require) {
 
     // Resources
     ctx.fillStyle = '#000'
-    ctx.font = '26px monospace'
     ctx.textAlign = 'left'
+
+    if (game.buildings.farm.built) {
+      ctx.font = '14px monospace'
+      text = '(+' + formatNumber(game.buildings.farm.built * 1) + ')'
+      ctx.fillText(text, ctx.canvas.width / 2 - 232, 48)
+    }
+
+    ctx.font = '26px monospace'
 
     text = formatNumber(game.resources.food.amount)
     ctx.fillText(text, ctx.canvas.width / 2 - 232, 27)

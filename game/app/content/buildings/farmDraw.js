@@ -60,7 +60,7 @@ define(function (require) {
       if (farm.buttons.get('click').hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
         farm.buttons.get('click').fill = '#2a2'
-        this.sfx.happyDraw(ctx, 'Build Farm', 389, 506, this.count)
+        this.sfx.happyDraw(ctx, 'Build Farm', 389, 502, this.count)
         var button = farm.buttons.get('click')
         var rect = {
           x: button.x - button.width / 2,
@@ -73,7 +73,7 @@ define(function (require) {
         ctx.fillRect(rect.x, rect.y, rect.width, rect.height)
         ctx.globalAlpha = 1
       } else {
-        ctx.fillText('Build Farm', 389, 506)
+        ctx.fillText('Build Farm', 389, 502)
       }
 
       ctx.font = '20px monospace'
@@ -87,11 +87,11 @@ define(function (require) {
       ctx.font = '22px monospace'
       ctx.textAlign = 'left'
 
-      ctx.fillText('Farm', 389, 506)
+      ctx.fillText('Farm', 389, 502)
 
       if (farm.points > 0) {
         ctx.textAlign = 'right'
-        ctx.fillText('+' + farm.points, 511, 506)
+        ctx.fillText('+' + farm.points, 511, 502)
       }
 
       ctx.font = '20px monospace'

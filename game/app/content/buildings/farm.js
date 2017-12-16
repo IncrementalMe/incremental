@@ -17,7 +17,7 @@ define(function (require) {
 
   var click = new Button({
     x: 450,
-    y: 564,
+    y: 560,
     width: 120,
     height: 108,
     weight: 2,
