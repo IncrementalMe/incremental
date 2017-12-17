@@ -1,5 +1,6 @@
 define(function (require) {
   var formatNumber = require('lib/formatNumber')
+  var ctxUtils = require('lib/ctxUtils')
   var ctx
 
   function start () {
@@ -12,8 +13,6 @@ define(function (require) {
     createImage('img/Andre/farm.png')
     createImage('img/Andre/gold.png')
     createImage('img/Andre/food.png')
-
-    ctx.save()
   }
 
   function createImage (src) {
@@ -25,7 +24,6 @@ define(function (require) {
 
   function draw (game) {
     if (ctx === null) return
-    var text = ''
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.fillStyle = '#f0f0f0'
@@ -34,28 +32,42 @@ define(function (require) {
     // Resources
     ctx.fillStyle = '#000'
     ctx.textAlign = 'left'
-
-    if (game.buildings.farm.built) {
-      ctx.font = '14px monospace'
-      text = '(+' + formatNumber(game.buildings.farm.built * 1) + ')'
-      ctx.fillText(text, ctx.canvas.width / 2 - 232, 48)
-    }
-
     ctx.font = '26px monospace'
 
-    text = formatNumber(game.resources.food.amount)
-    ctx.fillText(text, ctx.canvas.width / 2 - 232, 27)
-    ctx.drawImage(ctx.images.food, ctx.canvas.width / 2 - 270, 4, 28, 28)
-
-    if (game.resources.gold.amount > 0) {
-      text = formatNumber(game.resources.gold.amount)
-      ctx.fillText(text, ctx.canvas.width / 2 - 7, 28)
-      ctx.drawImage(ctx.images.gold, ctx.canvas.width / 2 - 45, 4, 28, 28)
-    }
+    ctxUtils.wrap(ctx, drawFood)(game)
+    ctxUtils.wrap(ctx, drawGold)(game)
 
     Object.keys(game.buildings).forEach(key => {
       game.buildings[key].drawObject.draw(game, ctx)
     })
+  }
+
+  function drawFood (game) {
+    ctx.translate(ctx.canvas.width / 2 - 270, 0)
+
+    ctx.strokeRect(0, 35, 40 + 71.4, 0)
+    var text = formatNumber(game.resources.food.amount)
+    ctx.fillText(text, 38, 27)
+    ctx.drawImage(ctx.images.food, 0, 4, 28, 28)
+
+    var farm = game.buildings.farm
+    if (farm.built) {
+      ctx.fillStyle = '#888'
+      ctx.font = '15px monospace'
+
+      var value = farm.built * -farm.effects[0].amount
+      text = '+' + formatNumber(value) + ' /s'
+      ctx.fillText(text, 61 - ctx.measureText(text).width / 2, 50)
+    }
+  }
+
+  function drawGold (game) {
+    ctx.translate(ctx.canvas.width / 2 - 45, 0)
+
+    ctx.strokeRect(0, 35, 40 + 71.47, 0)
+    var text = formatNumber(game.resources.gold.amount)
+    ctx.fillText(text, 38, 28)
+    ctx.drawImage(ctx.images.gold, 0, 4, 28, 28)
   }
 
   return { start: start, draw: draw }
