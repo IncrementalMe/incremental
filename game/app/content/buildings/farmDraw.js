@@ -1,77 +1,65 @@
 define(function (require) {
   var formatNumber = require('lib/formatNumber')
+  var ctxUtils = require('lib/ctxUtils')
   var settings = require('settings')
+  var sfx = require('lib/sfx')
 
-  var farmDraw = {
-    sfx: require('lib/sfx'),
-    gameLogicUpdates: 0,
-    count: 0,
-    draw: function (game, ctx) {
-      ctx.restore()
+  var logicUpdates = 0
+  var count = 0
 
-      var farm = game.buildings.farm
-      farm.buttons.get('click').fill = '#000'
+  function draw (game, ctx) {
+    var farm = game.buildings.farm
 
-      this.incrementCounter(farm)
-      this.drawImage(ctx, farm)
+    incrementCounter(farm)
+    ctxUtils.wrap(ctx, drawParts.image)(ctx, farm)
+    ctxUtils.wrap(ctx, drawParts.buttons)(game, ctx)
+    ctxUtils.wrap(ctx, sfx.draw)(ctx)
 
-      if (farm.built) {
-        this.drawNormal(ctx, farm)
-        if (this.gameLogicUpdates >= settings.ups) {
-          this.sfx.createSprite(ctx.images.food, { x: 444, y: 546 })
-          this.gameLogicUpdates -= settings.ups
-        }
-      } else {
-        this.drawBuild(game, ctx, farm)
+    if (farm.built) {
+      ctxUtils.wrap(ctx, drawParts.normal)(ctx, farm)
+
+      if (logicUpdates >= settings.ups) {
+        sfx.createSprite(ctx.images.food, { x: 444, y: 546 })
+        logicUpdates -= settings.ups
       }
+    } else {
+      ctxUtils.wrap(ctx, drawParts.build)(game, ctx)
+    }
+  }
 
-      farm.buttons.forEach(btt => {
-        btt.draw(game, ctx)
-      })
+  function logicTick (game) {
+    if (game.buildings.farm.built) logicUpdates++
+  }
 
-      this.sfx.draw(ctx)
-    },
-    logicTick: function (game) {
-      if (game.buildings.farm.built) {
-        this.gameLogicUpdates++
+  function incrementCounter (farm) {
+    if (farm.buttons.get('click').hover) count++
+    else count = 0
+    return count
+  }
+
+  var drawParts = {
+    image: function (ctx, farm) {
+      if (farm.built === false) {
+        if (farm.buttons.get('click').hover) ctx.globalAlpha = 0.7
+        else ctx.globalAlpha = 0.4
       }
-    },
-    incrementCounter: function (farm) {
-      if (farm.buttons.get('click').hover) {
-        this.count++
-        return this.count
-      }
-      this.count = 0
-      return this.count
-    },
-    drawImage: function (ctx, farm) {
-      ctx.globalAlpha = 0.4
-      if (farm.built) ctx.globalAlpha = 1
-      else if (farm.buttons.get('click').hover) ctx.globalAlpha = 0.7
-
       ctx.drawImage(ctx.images.farm, 450 - 39, 513, 76, 76)
-      ctx.globalAlpha = 1
     },
-    drawBuild: function (game, ctx, farm) {
-      ctx.fillStyle = '#000'
+    build: function (game, ctx) {
+      var farm = game.buildings.farm
+      var button = farm.buttons.get('click')
       ctx.font = '22px monospace'
-      ctx.textAlign = 'left'
 
-      if (farm.buttons.get('click').hover && farm.canBuild(game)) {
+      if (button.hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
-        farm.buttons.get('click').fill = '#2a2'
-        this.sfx.happyDraw(ctx, 'Build Farm', 389, 502, this.count)
-        var button = farm.buttons.get('click')
-        var rect = {
-          x: button.x - button.width / 2,
-          y: button.y - button.height / 2,
-          width: button.width,
-          height: button.height
-        }
-        ctx.fillStyle = '#2a2'
+        button.fill = '#2a2'
+
+        var x = button.x - button.width / 2
+        var y = button.y - button.height / 2
         ctx.globalAlpha = 0.1
-        ctx.fillRect(rect.x, rect.y, rect.width, rect.height)
+        ctx.fillRect(x, y, button.width, button.height)
         ctx.globalAlpha = 1
+        ctxUtils.wrap(ctx, sfx.happyDraw)(ctx, 'Build Farm', 389, 502, count)
       } else {
         ctx.fillText('Build Farm', 389, 502)
       }
@@ -82,11 +70,8 @@ define(function (require) {
       ctx.fillText(cost, 450, 602)
       ctx.drawImage(ctx.images.food, 459, 586, 18, 18)
     },
-    drawNormal: function (ctx, farm) {
-      ctx.fillStyle = '#000'
+    normal: function (ctx, farm) {
       ctx.font = '22px monospace'
-      ctx.textAlign = 'left'
-
       ctx.fillText('Farm', 389, 502)
 
       if (farm.points > 0) {
@@ -96,16 +81,19 @@ define(function (require) {
 
       ctx.font = '20px monospace'
       var text = formatNumber(-farm.effects[0].amount, 1)
-      if (-farm.effects[0].amount > 0) {
-        text = '+' + text
-      } else {
-        text = '-' + text
-      }
+      if (-farm.effects[0].amount > 0) text = '+' + text
+      else text = '-' + text
+
       ctx.fillText(text, 420, 603)
       ctx.fillText('/s', 428 + ctx.measureText(text).width, 603)
       ctx.drawImage(ctx.images.food, 393, 585, 21, 21)
+    },
+    buttons: function (game, ctx) {
+      game.buildings.farm.buttons.forEach(btt => {
+        btt.draw(game, ctx)
+      })
     }
   }
 
-  return farmDraw
+  return { draw: draw, logicTick: logicTick }
 })

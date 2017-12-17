@@ -3,6 +3,7 @@ define(function () {
     return function () {
       ctx.save()
       func.apply(this, arguments)
+      ctx.globalAlpha = 1
       ctx.restore()
     }
   }

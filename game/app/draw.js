@@ -34,40 +34,42 @@ define(function (require) {
     ctx.textAlign = 'left'
     ctx.font = '26px monospace'
 
-    ctxUtils.wrap(ctx, drawFood)(game)
-    ctxUtils.wrap(ctx, drawGold)(game)
+    ctxUtils.wrap(ctx, drawParts.food)(game)
+    ctxUtils.wrap(ctx, drawParts.gold)(game)
 
     Object.keys(game.buildings).forEach(key => {
       game.buildings[key].drawObject.draw(game, ctx)
     })
   }
 
-  function drawFood (game) {
-    ctx.translate(ctx.canvas.width / 2 - 270, 0)
+  var drawParts = {
+    food: function (game) {
+      ctx.translate(ctx.canvas.width / 2 - 270, 0)
 
-    ctx.strokeRect(0, 35, 40 + 71.4, 0)
-    var text = formatNumber(game.resources.food.amount)
-    ctx.fillText(text, 38, 27)
-    ctx.drawImage(ctx.images.food, 0, 4, 28, 28)
+      ctx.strokeRect(0, 35, 40 + 71.4, 0)
+      var text = formatNumber(game.resources.food.amount)
+      ctx.fillText(text, 38, 27)
+      ctx.drawImage(ctx.images.food, 0, 4, 28, 28)
 
-    var farm = game.buildings.farm
-    if (farm.built) {
-      ctx.fillStyle = '#888'
-      ctx.font = '15px monospace'
+      var farm = game.buildings.farm
+      if (farm.built) {
+        ctx.fillStyle = '#888'
+        ctx.font = '15px monospace'
 
-      var value = farm.built * -farm.effects[0].amount
-      text = '+' + formatNumber(value) + ' /s'
-      ctx.fillText(text, 61 - ctx.measureText(text).width / 2, 50)
+        var value = farm.built * -farm.effects[0].amount
+        text = '+' + formatNumber(value) + ' /s'
+        ctx.fillText(text, 61 - ctx.measureText(text).width / 2, 50)
+      }
+    },
+
+    gold: function (game) {
+      ctx.translate(ctx.canvas.width / 2 - 45, 0)
+
+      ctx.strokeRect(0, 35, 40 + 71.47, 0)
+      var text = formatNumber(game.resources.gold.amount)
+      ctx.fillText(text, 38, 28)
+      ctx.drawImage(ctx.images.gold, 0, 4, 28, 28)
     }
-  }
-
-  function drawGold (game) {
-    ctx.translate(ctx.canvas.width / 2 - 45, 0)
-
-    ctx.strokeRect(0, 35, 40 + 71.47, 0)
-    var text = formatNumber(game.resources.gold.amount)
-    ctx.fillText(text, 38, 28)
-    ctx.drawImage(ctx.images.gold, 0, 4, 28, 28)
   }
 
   return { start: start, draw: draw }

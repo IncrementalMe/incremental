@@ -1,9 +1,10 @@
-define(function () {
+define(function (require) {
+  var ctxUtils = require('lib/ctxUtils')
   var sfxHolder = []
 
   function draw (ctx) {
     sfxHolder.forEach(sfx => {
-      sfx.draw(ctx)
+      ctxUtils.wrap(ctx, sfx.draw(ctx))
     })
   }
 
@@ -36,7 +37,6 @@ define(function () {
       } else {
         ctx.globalAlpha = 1 / this.maxLife * this.life
         ctx.drawImage(ctx.images.food, this.pos.x, this.pos.y, 17, 17)
-        ctx.globalAlpha = 1
 
         this.pos.x += Math.cos(this.direction / 360 * 2 * Math.PI)
         this.pos.y += Math.sin(this.direction / 360 * 2 * Math.PI)
