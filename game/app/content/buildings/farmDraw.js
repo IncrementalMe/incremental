@@ -53,11 +53,6 @@ define(function (require) {
 
       if (btt.hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
-        btt.fill = '#2a2'
-
-        ctx.globalAlpha = 0.1
-        ctx.fillRect(0, 0, btt.width, btt.height)
-        ctx.globalAlpha = 1
         sfx.happyDraw(ctx, 'Build Farm', -1, -4, count)
       } else {
         ctx.fillText('Build Farm', -1, -4)
@@ -93,9 +88,24 @@ define(function (require) {
     },
 
     buttons: function (game, ctx) {
+      var btt = game.buildings.farm.buttons.get('click')
+
       game.buildings.farm.buttons.forEach(btt => {
         btt.draw(game, ctx)
       })
+
+      if (btt.hover && game.buildings.farm.canBuild(game)) {
+        btt.fill = '#2a2'
+        ctx.fillStyle = '#2a2'
+        ctx.globalAlpha = 0.1
+        ctx.fillRect(
+          btt.x - btt.width / 2,
+          btt.y - btt.height / 2,
+          btt.width,
+          btt.height
+        )
+        ctx.globalAlpha = 1
+      }
     }
   }
 
