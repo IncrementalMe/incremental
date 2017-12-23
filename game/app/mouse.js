@@ -14,6 +14,10 @@ define(function () {
             btt.tryClick(game)
           })
         })
+
+        game.settlement.buttons.forEach(btt => {
+          btt.tryClick(game)
+        })
       },
       false
     )

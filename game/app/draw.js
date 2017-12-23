@@ -40,6 +40,8 @@ define(function (require) {
     Object.keys(game.buildings).forEach(key => {
       game.buildings[key].drawObject.draw(game, ctx)
     })
+
+    game.settlement.drawObject.draw(game, ctx)
   }
 
   var drawParts = {

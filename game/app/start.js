@@ -6,6 +6,7 @@ define(function (require) {
   var game = {
     resources: new Wallet(require('content/resources')),
     buildings: require('content/buildings'),
+    settlement: require('content/settlement'),
     mousePos: {}
   }
   game.resources.pay('food', -100)
