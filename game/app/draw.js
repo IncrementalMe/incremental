@@ -49,7 +49,7 @@ define(function (require) {
       ctx.translate(ctx.canvas.width / 2 - 270, 0)
 
       ctx.strokeRect(0, 35, 40 + 71.4, 0)
-      var text = formatNumber(game.resources.food.amount)
+      var text = formatNumber(game.wallet.food.amount)
       ctx.fillText(text, 38, 27)
       ctx.drawImage(ctx.images.food, 0, 4, 28, 28)
 
@@ -69,7 +69,7 @@ define(function (require) {
       ctx.translate(ctx.canvas.width / 2 - 45, 0)
 
       ctx.strokeRect(0, 35, 40 + 71.47, 0)
-      var text = formatNumber(game.resources.gold.amount)
+      var text = formatNumber(game.wallet.gold.amount)
       ctx.fillText(text, 38, 28)
       ctx.drawImage(ctx.images.gold, 0, 4, 28, 28)
     }

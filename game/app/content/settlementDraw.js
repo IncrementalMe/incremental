@@ -33,7 +33,7 @@ define(function (require) {
     buttons: function (game, ctx) {
       var settlement = game.settlement
       var btt = settlement.buttons.get('trade')
-      var canPay = game.resources.canPay(settlement.trade.cost)
+      var canPay = game.wallet.canPay(settlement.trade.cost)
 
       if (btt.hover && canPay) {
         btt.fill = '#2a2'

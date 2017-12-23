@@ -25,7 +25,7 @@ define(function (require) {
 
   Building.prototype.build = function (game) {
     if (this.built === false) {
-      if (game.resources.pay(this.buildCost)) {
+      if (game.wallet.pay(this.buildCost)) {
         this.built = true
         return true
       }
@@ -35,7 +35,7 @@ define(function (require) {
 
   Building.prototype.canBuild = function (game) {
     var cost = game.buildings[this.name].buildCost
-    return game.resources.canPay(cost)
+    return game.wallet.canPay(cost)
   }
 
   return Building

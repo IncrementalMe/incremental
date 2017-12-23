@@ -21,9 +21,9 @@ define(function (require) {
       var settlement = game.settlement
       var trade = settlement.trade
 
-      if (game.resources.pay(trade.cost)) {
+      if (game.wallet.pay(trade.cost)) {
         if (settlement.reputation === 0) settlement.showReputation = true
-        game.resources.pay(trade.reward, -1, true)
+        game.wallet.pay(trade.reward, -1, true)
         game.settlement.reputation += 1
       }
     },
