@@ -26,7 +26,6 @@ define(function (require) {
   Building.prototype.build = function (game) {
     if (this.built === false) {
       if (game.resources.pay(this.buildCost)) {
-        game.buildings.pay(this.name, -1)
         this.built = true
         return true
       }

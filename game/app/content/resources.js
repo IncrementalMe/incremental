@@ -1,7 +1,8 @@
 define(function () {
   var resources = {
     gold: {},
-    food: {}
+    food: {},
+    farmHand: {}
   }
   return resources
 })

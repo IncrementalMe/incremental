@@ -1,26 +1,27 @@
 define(function (require) {
   var Button = require('lib/Button')
+  var Effect = require('lib/Effect')
+  var Building = require('lib/Building')
 
-  var farm = {
+  var farm = new Building({
     drawObject: require('content/buildings/farmDraw'),
     name: 'farm',
     buildCost: new Map([['food', 100]]),
-    buttons: new Map([]),
-    defaultEffects: [
-      {
-        target: 'resources',
-        resource: 'food',
-        amount: -1
-      }
-    ]
-  }
+    effects: [],
+    buttons: new Map([])
+  })
 
-  var click = new Button({
+  var input = {
+    type: 'income',
+    value: new Map([['food', 1]])
+  }
+  farm.effects.push(new Effect(input, farm))
+
+  input = {
     x: 450,
     y: 560,
     width: 120,
     height: 108,
-    weight: 2,
     text: '',
     click: function (game) {
       var farm = game.buildings.farm
@@ -33,8 +34,8 @@ define(function (require) {
       }
     },
     hidden: false
-  })
-  farm.buttons.set('click', click)
+  }
+  farm.buttons.set('click', new Button(input))
 
   return farm
 })

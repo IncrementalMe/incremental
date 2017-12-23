@@ -30,7 +30,7 @@ define(function () {
       ctx.font = '18px monospace'
       ctx.fillStyle = this.fill
       ctx.strokeStyle = this.fill
-      ctx.lineWidth = this.weight + this.hover / 5
+      ctx.lineWidth = this.weight
 
       if (this.topOnly) ctx.strokeRect(x, y, this.width + 1, 0)
       else ctx.strokeRect(x, y, this.width, this.height)

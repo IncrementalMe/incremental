@@ -1,18 +1,17 @@
 define(function (require) {
   var settings = require('settings')
 
-  function Effect (game, preEffect) {
-    Object.keys(preEffect).forEach(key => {
-      this[key] = preEffect[key]
-    })
-
-    this.parent = preEffect.parent
+  function Effect (input, parent) {
+    this.type = input.type
+    this.value = input.value
+    this.parent = parent
   }
 
   Effect.prototype.do = function (game) {
     if (this.parent.built) {
-      var cost = this.amount
-      game[this.target].pay(this.resource, cost / settings.ups, true)
+      if (this.type === 'income') {
+        game.resources.pay(this.value, -1 / settings.ups, true)
+      }
     }
   }
 

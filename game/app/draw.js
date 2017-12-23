@@ -51,12 +51,13 @@ define(function (require) {
       ctx.fillText(text, 38, 27)
       ctx.drawImage(ctx.images.food, 0, 4, 28, 28)
 
+      // income
       var farm = game.buildings.farm
       if (farm.built) {
         ctx.fillStyle = '#888'
         ctx.font = '15px monospace'
 
-        var value = farm.built * -farm.effects[0].amount
+        var value = farm.built * farm.effects[0].value.get('food')
         text = '+' + formatNumber(value) + ' /s'
         ctx.fillText(text, 61 - ctx.measureText(text).width / 2, 50)
       }

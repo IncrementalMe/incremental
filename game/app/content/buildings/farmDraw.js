@@ -47,17 +47,17 @@ define(function (require) {
     },
     build: function (game, ctx) {
       var farm = game.buildings.farm
-      var button = farm.buttons.get('click')
+      var btt = farm.buttons.get('click')
       ctx.font = '22px monospace'
 
-      if (button.hover && farm.canBuild(game)) {
+      if (btt.hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
-        button.fill = '#2a2'
+        btt.fill = '#2a2'
 
-        var x = button.x - button.width / 2
-        var y = button.y - button.height / 2
+        var x = btt.x - btt.width / 2
+        var y = btt.y - btt.height / 2
         ctx.globalAlpha = 0.1
-        ctx.fillRect(x, y, button.width, button.height)
+        ctx.fillRect(x, y, btt.width, btt.height)
         ctx.globalAlpha = 1
         ctxUtils.wrap(ctx, sfx.happyDraw)(ctx, 'Build Farm', 389, 502, count)
       } else {
@@ -80,8 +80,8 @@ define(function (require) {
       }
 
       ctx.font = '20px monospace'
-      var text = formatNumber(-farm.effects[0].amount, 1)
-      if (-farm.effects[0].amount > 0) text = '+' + text
+      var text = formatNumber(farm.effects[0].value.get('food'), 1)
+      if (text > 0) text = '+' + text
       else text = '-' + text
 
       ctx.fillText(text, 420, 603)
