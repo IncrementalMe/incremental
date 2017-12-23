@@ -11,17 +11,18 @@ define(function (require) {
     buttons: new Map([])
   })
 
-  var input = {
+  var inputObj = {
     type: 'income',
     value: new Map([['food', 1]])
   }
-  farm.effects.push(new Effect(input, farm))
+  farm.effects.push(new Effect(inputObj, farm))
 
-  input = {
+  inputObj = {
     x: 450,
     y: 560,
     width: 120,
     height: 108,
+    hidden: false,
     click: function (game) {
       var farm = game.buildings.farm
 
@@ -31,10 +32,9 @@ define(function (require) {
           // Open Tech Tree
         }
       }
-    },
-    hidden: false
+    }
   }
-  farm.buttons.set('click', new Button(input))
+  farm.buttons.set('click', new Button(inputObj))
 
   return farm
 })
