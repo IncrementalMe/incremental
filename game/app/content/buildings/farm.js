@@ -22,7 +22,6 @@ define(function (require) {
     y: 560,
     width: 120,
     height: 108,
-    text: '',
     click: function (game) {
       var farm = game.buildings.farm
 

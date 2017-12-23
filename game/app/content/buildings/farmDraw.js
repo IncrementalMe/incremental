@@ -34,7 +34,6 @@ define(function (require) {
   function incrementCounter (farm) {
     if (farm.buttons.get('click').hover) count++
     else count = 0
-    return count
   }
 
   var drawParts = {
