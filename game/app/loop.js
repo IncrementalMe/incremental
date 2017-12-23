@@ -22,7 +22,7 @@ define(function (require) {
       Object.keys(game.buildings).forEach(key => {
         game.buildings[key].drawObject.logicTick(game)
         game.buildings[key].effects.forEach(effect => {
-          effect.do(game)
+          effect.do(game, ticks)
         })
       })
     }
