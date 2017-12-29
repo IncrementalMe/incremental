@@ -11,6 +11,7 @@ define(function () {
     this.fill = '#000'
     this.topOnly = false
     this.hover = false
+    this.hoverCount = 0
   }
 
   Button.prototype.tryClick = function (game) {
@@ -21,8 +22,13 @@ define(function () {
 
   Button.prototype.draw = function (game, ctx) {
     if (this.hidden === false) {
-      if (this.onObject(game.mousePos)) this.hover = true
-      else this.hover = false
+      this.hover = this.onObject(game.mousePos)
+
+      if (this.hover) {
+        this.hoverCount += 1
+      } else {
+        this.hoverCount = 0
+      }
 
       var x = this.x - this.width / 2
       var y = this.y - this.height / 2

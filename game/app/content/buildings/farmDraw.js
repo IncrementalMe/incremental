@@ -5,12 +5,10 @@ define(function (require) {
   var sfx = require('lib/sfx')
 
   var logicUpdates = 0
-  var count = 0
 
   function draw (game, ctx) {
     var farm = game.buildings.farm
 
-    incrementCounter(farm)
     ctxUtils.wrap(ctx, drawParts.image)(ctx, farm)
     ctxUtils.wrap(ctx, drawParts.buttons)(game, ctx)
     ctxUtils.wrap(ctx, sfx.draw)(ctx)
@@ -31,11 +29,6 @@ define(function (require) {
     if (game.buildings.farm.built) logicUpdates++
   }
 
-  function incrementCounter (farm) {
-    if (farm.buttons.get('click').hover) count++
-    else count = 0
-  }
-
   var drawParts = {
     image: function (ctx, farm) {
       if (farm.built === false) {
@@ -53,7 +46,7 @@ define(function (require) {
 
       if (btt.hover && farm.canBuild(game)) {
         ctx.fillStyle = '#2a2'
-        sfx.happyDraw(ctx, 'Build Farm', -1, -4, count)
+        sfx.happyDraw(ctx, 'Build Farm', -1, -4, btt.hoverCount)
       } else {
         ctx.fillText('Build Farm', -1, -4)
       }
