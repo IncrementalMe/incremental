@@ -27,6 +27,9 @@ define(function (require) {
         game.settlement.reputation += 1
       }
     },
+    hoverCondition: function (game) {
+      return game.wallet.canPay(settlement.trade.cost)
+    },
     hidden: false
   }
   settlement.buttons.set('trade', new Button(input))

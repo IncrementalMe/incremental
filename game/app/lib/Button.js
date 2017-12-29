@@ -8,10 +8,20 @@ define(function () {
     this.text = typeof input.text === 'undefined' ? '' : input.text
     this.hidden = typeof input.hidden === 'undefined' ? false : input.hidden
     this.click = typeof input.click === 'undefined' ? () => {} : input.click
+    this.hoverCondition = typeof input.hoverCondition === 'undefined'
+      ? () => {
+        return true
+      }
+      : input.hoverCondition
     this.fill = '#000'
     this.topOnly = false
     this.hover = false
     this.hoverCount = 0
+    this.hoverStyle = 'green'
+  }
+
+  Button.prototype.hoverCondition = function (game) {
+    return true
   }
 
   Button.prototype.tryClick = function (game) {
@@ -24,8 +34,20 @@ define(function () {
     if (this.hidden === false) {
       this.hover = this.onObject(game.mousePos)
 
-      if (this.hover) {
+      if (this.hover && this.hoverCondition(game)) {
         this.hoverCount += 1
+        if (this.hoverStyle === 'green') {
+          this.fill = '#2a2'
+          ctx.fillStyle = '#2a2'
+          ctx.globalAlpha = 0.1
+          ctx.fillRect(
+            this.x - this.width / 2,
+            this.y - this.height / 2,
+            this.width,
+            this.height
+          )
+          ctx.globalAlpha = 1
+        }
       } else {
         this.hoverCount = 0
       }
@@ -43,6 +65,8 @@ define(function () {
       ctx.fillText(this.text, x + 8, y + 21)
 
       this.fill = '#000'
+    } else {
+      this.hoverCount = 0
     }
   }
 

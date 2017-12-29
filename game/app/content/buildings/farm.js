@@ -27,11 +27,17 @@ define(function (require) {
       var farm = game.buildings.farm
 
       if (farm.build(game)) {
-        farm.buttons.get('click').topOnly = true
+        this.topOnly = true
+        this.hoverCondition = function (game) {
+          return false
+        }
         this.click = function (game) {
           // Open Tech Tree
         }
       }
+    },
+    hoverCondition: function (game) {
+      return game.buildings.farm.canBuild(game)
     }
   }
   farm.buttons.set('click', new Button(inputObj))
