@@ -1,11 +1,11 @@
 define(function () {
   function start (game) {
     var canvas = document.getElementById('canvas')
-    var canvasRect = canvas.getBoundingClientRect()
 
     canvas.addEventListener(
       'click',
       function (e) {
+        var canvasRect = canvas.getBoundingClientRect()
         game.mousePos.x = e.clientX - canvasRect.left
         game.mousePos.y = e.clientY - canvasRect.top
 
@@ -25,6 +25,7 @@ define(function () {
     canvas.addEventListener(
       'mousemove',
       function (e) {
+        var canvasRect = canvas.getBoundingClientRect()
         game.mousePos.x = e.clientX - canvasRect.left
         game.mousePos.y = e.clientY - canvasRect.top
       },
