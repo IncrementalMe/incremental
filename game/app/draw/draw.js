@@ -11,6 +11,7 @@ define(function (require) {
 
     ctx.images = {}
     createImage('img/Andre/farm.png')
+    createImage('img/Andre/house.png')
     createImage('img/Andre/gold.png')
     createImage('img/Andre/food.png')
   }
@@ -38,7 +39,7 @@ define(function (require) {
     ctxUtils.wrap(ctx, drawParts.gold)(game)
 
     Object.keys(game.buildings).forEach(key => {
-      game.buildings[key].drawObject.draw(game, ctx)
+      game.buildings[key].draw(game, ctx)
     })
 
     game.settlement.drawObject.draw(game, ctx)

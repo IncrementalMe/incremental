@@ -10,7 +10,6 @@ define(function (require) {
     mousePos: {}
   }
   game.wallet.pay('food', -100)
-  game.wallet.pay('gold', -42)
 
   mouse.start(game)
   loop.start(game)

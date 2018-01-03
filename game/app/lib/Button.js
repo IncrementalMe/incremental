@@ -19,7 +19,7 @@ define(function () {
     this.hoverCount = 0
     this.hoverStyle = 'green'
   }
-  
+
   Button.prototype.tryClick = function (game) {
     if (this.hidden === false && this.onObject(game.mousePos)) {
       this.click(game)

@@ -4,6 +4,8 @@ define(function (require) {
       this[key] = input[key]
     })
 
+    this.draw = require('draw/buildingDraw')
+    this.sfx = require('lib/sfx')
     this.built = false
     this.xp = 0
     this.level = 0

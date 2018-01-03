@@ -25,7 +25,7 @@ define(function (require) {
   }
 
   function Sprite (sprite, pos, speed, life) {
-    this.image = sprite
+    this.sprite = sprite
     this.pos = pos
     this.speed = speed
     this.maxLife = life
@@ -36,7 +36,7 @@ define(function (require) {
         sfxHolder.slice(sfxHolder.indexOf(this), 1)
       } else {
         ctx.globalAlpha = 1 / this.maxLife * this.life
-        ctx.drawImage(ctx.images.food, this.pos.x, this.pos.y, 17, 17)
+        ctx.drawImage(ctx.images[this.sprite], this.pos.x, this.pos.y, 17, 17)
 
         this.pos.x += Math.cos(this.direction / 360 * 2 * Math.PI)
         this.pos.y += Math.sin(this.direction / 360 * 2 * Math.PI)

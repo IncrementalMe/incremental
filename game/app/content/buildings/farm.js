@@ -2,12 +2,24 @@ define(function (require) {
   var Button = require('lib/Button')
   var Effect = require('lib/Effect')
   var Building = require('lib/Building')
+  var settings = require('settings')
 
   var farm = new Building({
-    drawObject: require('content/buildings/farmDraw'),
+    name: 'farm',
+    visable: true,
     buildCost: new Map([['food', 100]]),
     effects: [],
-    buttons: new Map([])
+    buttons: new Map([]),
+    logicTick: function (game) {
+      if (this.built) {
+        if (this.logicUpdates >= settings.ups) {
+          this.sfx.createSprite('food', { x: 444, y: 546 })
+          this.logicUpdates -= settings.ups
+        }
+        this.logicUpdates++
+      }
+    },
+    logicUpdates: 0
   })
 
   var inputObj = {
@@ -21,13 +33,13 @@ define(function (require) {
     y: 560,
     width: 120,
     height: 108,
-    hidden: false,
     click: function (game) {
       var farm = game.buildings.farm
 
       if (farm.build(game)) {
+        game.buildings.house.visable = true
         this.topOnly = true
-        this.hoverCondition = function (game) {
+        this.hoverCondition = () => {
           return false
         }
         this.click = function (game) {

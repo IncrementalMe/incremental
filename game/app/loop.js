@@ -1,5 +1,5 @@
 define(function (require) {
-  var draw = require('draw')
+  var draw = require('draw/draw')
   var tick = require('tick')
 
   var game
@@ -20,8 +20,9 @@ define(function (require) {
   function update (ticks) {
     if (ticks > 0) {
       Object.keys(game.buildings).forEach(key => {
-        game.buildings[key].drawObject.logicTick(game)
-        game.buildings[key].effects.forEach(effect => {
+        var building = game.buildings[key]
+        building.logicTick(game)
+        building.effects.forEach(effect => {
           effect.do(game, ticks)
         })
       })

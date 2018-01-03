@@ -4,7 +4,7 @@ define(function (require) {
   var settlement = {
     reputation: 0,
     showReputation: false,
-    drawObject: require('content/settlementDraw'),
+    drawObject: require('draw/settlementDraw'),
     buttons: new Map([]),
     trades: [{
       cost: new Map([['food', 20]]),
@@ -13,7 +13,6 @@ define(function (require) {
   }
 
   for (var i = 0; i < settlement.trades.length; i++) {
-
     var buttonInput = {
       pos: i,
       x: 100,
