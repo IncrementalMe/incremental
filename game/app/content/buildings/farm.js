@@ -5,7 +5,6 @@ define(function (require) {
 
   var farm = new Building({
     drawObject: require('content/buildings/farmDraw'),
-    name: 'farm',
     buildCost: new Map([['food', 100]]),
     effects: [],
     buttons: new Map([])

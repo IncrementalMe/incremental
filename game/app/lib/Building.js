@@ -34,8 +34,7 @@ define(function (require) {
   }
 
   Building.prototype.canBuild = function (game) {
-    var cost = game.buildings[this.name].buildCost
-    return game.wallet.canPay(cost)
+    return game.wallet.canPay(this.buildCost)
   }
 
   return Building
