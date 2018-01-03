@@ -3,23 +3,28 @@ define(function (require) {
 
   function draw (game, ctx) {
     if (game.buildings.farm.built) {
-      ctxUtils.wrap(ctx, drawParts.normal)(ctx, game.settlement)
+      ctxUtils.wrap(ctx, drawParts.trades)(ctx, game.settlement)
       ctxUtils.wrap(ctx, drawParts.reputation)(ctx, game.settlement)
       ctxUtils.wrap(ctx, drawParts.buttons)(game, ctx)
     }
   }
 
   var drawParts = {
-    normal: function (ctx, settlement) {
+    trades: function (ctx, settlement) {
       ctx.font = '20px monospace'
-      ctx.translate(0, 450)
-      ctx.fillText('Settlement', 38, 72)
+      ctx.translate(38, 450)
 
-      var text = 'Trade ' + settlement.trade.cost.get('food')
-      text += '   for ' + settlement.trade.reward.get('gold')
-      ctx.fillText(text, 38, 97)
-      ctx.drawImage(ctx.images.food, 128, 81, 21, 21)
-      ctx.drawImage(ctx.images.gold, 217, 81, 21, 21)
+      ctx.fillText('Settlement trades', 0, 72)
+
+      var text = 'Sell ' + settlement.trades[0].cost.get('food')
+      var x = ctx.measureText(text).width + 4
+      ctx.fillText(text, 0, 97)
+      ctx.drawImage(ctx.images.food, x, 81, 17, 17)
+
+      text = ' for ' + settlement.trades[0].reward.get('gold')
+      ctx.fillText(text, x + 21, 97)
+      x += ctx.measureText(text).width + 24
+      ctx.drawImage(ctx.images.gold, x, 81, 21, 21)
     },
 
     reputation: function (ctx, settlement) {

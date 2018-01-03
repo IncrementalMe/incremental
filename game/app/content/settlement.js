@@ -6,32 +6,37 @@ define(function (require) {
     showReputation: false,
     drawObject: require('content/settlementDraw'),
     buttons: new Map([]),
-    trade: {
-      cost: new Map([['food', 10]]),
+    trades: [{
+      cost: new Map([['food', 20]]),
       reward: new Map([['gold', 1]])
+    }]
+  }
+
+  for (var i = 0; i < settlement.trades.length; i++) {
+
+    var buttonInput = {
+      pos: i,
+      x: 100,
+      y: 580 - i * 140,
+      width: 120,
+      height: 40,
+      click: function (game) {
+        var trade = game.settlement.trades[buttonInput.pos]
+
+        if (game.wallet.trade(trade)) {
+          game.settlement.reputation += 1
+          game.settlement.showReputation = true
+        }
+      },
+      hoverCondition: function (game) {
+        var tradeCost = game.settlement.trades[buttonInput.pos].cost
+        return game.wallet.canPay(tradeCost)
+      },
+      hidden: false
     }
+
+    settlement.buttons.set('trade' + i, new Button(buttonInput))
   }
 
-  var input = {
-    x: 100,
-    y: 580,
-    width: 120,
-    height: 40,
-    click: function (game) {
-      var settlement = game.settlement
-      var trade = settlement.trade
-
-      if (game.wallet.pay(trade.cost)) {
-        if (settlement.reputation === 0) settlement.showReputation = true
-        game.wallet.pay(trade.reward, -1, true)
-        game.settlement.reputation += 1
-      }
-    },
-    hoverCondition: function (game) {
-      return game.wallet.canPay(settlement.trade.cost)
-    },
-    hidden: false
-  }
-  settlement.buttons.set('trade', new Button(input))
   return settlement
 })

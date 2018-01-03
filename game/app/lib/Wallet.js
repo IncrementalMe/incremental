@@ -6,6 +6,20 @@ define(function () {
     })
   }
 
+  Wallet.prototype.trade = function (trade, amount = 1, allowNegative = false) {
+    if (this.canTrade(trade, amount, allowNegative)) {
+      this.pay(trade.cost, amount, allowNegative)
+      this.pay(trade.reward, -1, true)
+      return true
+    }
+    return false
+  }
+
+  Wallet.prototype.canTrade = function (trade, amount = 1, allowNegative = false) {
+    if (this.canPay(trade.cost)) return true
+    return false
+  }
+
   Wallet.prototype.pay = function (keyOrMap, amount = 1, allowNegative = false) {
     if (amount === 0) return true
 
@@ -23,7 +37,7 @@ define(function () {
       return false
     }
 
-    throw new Error('Wallet.js pay() arg1 not String or Map')
+    throw new Error('arg0 keyOrMap not String or Map')
   }
 
   Wallet.prototype.paySingle = function (resource, amount, allowNegative) {
@@ -53,9 +67,7 @@ define(function () {
   }
 
   Wallet.prototype.canPaySingle = function (resource, amount) {
-    if (this[resource].amount >= amount) {
-      return true
-    }
+    if (this[resource].amount >= amount) return true
     return false
   }
 
