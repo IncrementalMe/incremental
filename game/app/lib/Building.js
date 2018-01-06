@@ -5,7 +5,7 @@ define(function (require) {
     })
 
     this.draw = require('draw/buildingDraw')
-    this.sfx = require('lib/sfx')
+    this.sfx = require('draw/sfx')
     this.built = false
     this.xp = 0
     this.level = 0

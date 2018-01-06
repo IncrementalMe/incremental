@@ -1,6 +1,6 @@
 define(function (require) {
   var formatNumber = require('lib/formatNumber')
-  var ctxUtils = require('lib/ctxUtils')
+  var ctxUtils = require('draw/ctxUtils')
 
   function draw (game, ctx) {
     if (this.visable) {

@@ -1,5 +1,5 @@
 define(function (require) {
-  var ctxUtils = require('lib/ctxUtils')
+  var ctxUtils = require('draw/ctxUtils')
 
   function draw (game, ctx) {
     if (game.buildings.farm.built) {

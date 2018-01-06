@@ -1,5 +1,5 @@
 define(function (require) {
-  var ctxUtils = require('lib/ctxUtils')
+  var ctxUtils = require('draw/ctxUtils')
   var sfxHolder = []
 
   function draw (ctx) {
